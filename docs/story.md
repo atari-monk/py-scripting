@@ -14,6 +14,7 @@
 - script to remove comments from py file and save it back
 - removes inline comments
 - removes multiline comments
+- based on data file to handle
 
 ## fs_tree.py
 
