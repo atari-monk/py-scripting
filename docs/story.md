@@ -12,14 +12,17 @@
 ## remove_comments.py
 
 - script to remove comments from py file and save it back
+- removes inline comments
+- removes multiline comments
 
 ## fs_tree.py
 
-- file system tree printout of folders and files from root folder
+- file system tree printout of folders and files in path
 
 ## tests in py
 
 - want to setup unit tests in py
+- test_remove_inline_comments.py
 - to run:
 ```sh
 python -m unittest .\tests\test_remove_inline_comments.py
