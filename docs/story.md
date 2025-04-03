@@ -21,6 +21,11 @@
 - i started from simplest case file 
 - simplest function to remove simplest comment 
 - i runned script to test it and generated unittest
+- i dont want to use re or any library, just simple text processing
+- input and output clearly shows what comments can be cleared
+- there is many exeptions so i detect them and skip such cases
+- one function handles just one type of comments
+- if it is not simple it wont work
 
 ## tests in py
 

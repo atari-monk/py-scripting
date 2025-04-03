@@ -50,7 +50,6 @@ def foo():
         code = """import os  # This is an inline comment
 def foo():
     return 42"""
-        # The function does not handle inline comments, so this should remain unchanged
         expected = """import os  # This is an inline comment
 def foo():
     return 42"""
