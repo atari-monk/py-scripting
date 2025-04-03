@@ -1,5 +1,5 @@
 import unittest
-from remove_comments import remove_inline_comments
+from scripts.remove_comments import remove_inline_comments
 
 class TestRemoveInlineComments(unittest.TestCase):
     def test_basic_cases(self):

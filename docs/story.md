@@ -20,3 +20,7 @@
 ## tests in py
 
 - want to setup unit tests in py
+- to run:
+```sh
+python -m unittest .\tests\test_remove_inline_comments.py
+```
