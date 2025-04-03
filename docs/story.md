@@ -41,3 +41,8 @@ python -m unittest .\tests\test_remove_comments.py
 - file system tree printout of folders and files in path
 - get file path from argparse or input
 - saved in md file and clipboard
+
+## camera_detect.py
+
+- i want a py script using web camera to detect something
+- for example blue ball in my hand
