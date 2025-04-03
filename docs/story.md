@@ -12,7 +12,7 @@
 ## remove_comments.py
 
 - script to remove comments from py file and save it back
-- each comment type should be processed by its function
+- one function handles just one type of comments
 - get file path from argparse or input
 
 - THIS GAVE ME IMMENSE PROBLEM
@@ -24,7 +24,6 @@
 - i dont want to use re or any library, just simple text processing
 - input and output clearly shows what comments can be cleared
 - there is many exeptions so i detect them and skip such cases
-- one function handles just one type of comments
 - if it is not simple it wont work
 
 ## tests in py

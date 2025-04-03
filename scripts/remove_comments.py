@@ -1,3 +1,5 @@
+import argparse
+
 def remove_comments(code):
     lines = code.split('\n')
     cleaned_lines = [line for line in lines if not line.strip().startswith('#')]
@@ -42,4 +44,20 @@ def clean_code_file(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write(cleaned_code)
 
-clean_code_file(r'C:\atari-monk\code\py-scripting\data\comments_input.py', r'C:\atari-monk\code\py-scripting\data\comments_output.py')
+def main():
+    parser = argparse.ArgumentParser(description="Remove comments from a Python file.")
+    parser.add_argument("input_file", nargs="?", help="Path to the input Python file")
+    parser.add_argument("output_file", nargs="?", help="Path to save the cleaned Python file")
+
+    args = parser.parse_args()
+
+    if not args.input_file:
+        args.input_file = input("Enter the input file path: ").strip()
+    
+    if not args.output_file:
+        args.output_file = args.input_file
+
+    clean_code_file(args.input_file, args.output_file)
+
+if __name__ == "__main__":
+    main()
