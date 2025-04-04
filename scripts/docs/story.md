@@ -1,7 +1,6 @@
-# Story
+# Story about python scripts
 
-**2025-04-03**
----
+## **2025-04-03**
 
 ## markdown_to_text.py
 
@@ -18,8 +17,8 @@
 - THIS GAVE ME IMMENSE PROBLEM
 - py comments are really complex, they have many structures
 - ai generated solutions was failing
-- i started from simplest case file 
-- simplest function to remove simplest comment 
+- i started from simplest case file
+- simplest function to remove simplest comment
 - i runned script to test it and generated unittest
 - i dont want to use re or any library, just simple text processing
 - input and output clearly shows what comments can be cleared
@@ -31,9 +30,11 @@
 - want to setup unit tests in py
 - test_remove_comments.py
 - to run:
+
 ```sh
 python -m unittest .\tests\test_remove_comments.py
 ```
+
 - debuged with VSCODE launch.json
 
 ## fs_tree.py
