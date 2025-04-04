@@ -14,13 +14,23 @@
 See structure and keep it simple but organized.
 
 ```plaintext
-C:\atari-monk\code\learn-django
-├── docs
-│   └── story.md
-├── index.md
-└── script
-    ├── generate_project.py
-    └── setup_django.py
+C:\atari-monk\code\py-scripting
+├── .gitignore
+├── .vscode
+│   └── launch.json
+├── django_scripts
+│   ├── __init__.py
+│   ├── data
+│   │   └── django_gitignore.txt
+│   ├── delete_project.py
+│   ├── docs
+│   │   ├── historia.md
+│   │   └── story.md
+│   ├── generate_project.py
+│   ├── meta_model.py
+│   ├── model_class.py
+│   └── setup_django.py
+└── index.md
 ```
 
 ## Setup django
@@ -32,24 +42,11 @@ C:\atari-monk\code\learn-django
 - install if not installed
 - it needs to be able to be run any time and in bigger script when framework needs to be checked
 - i skipped considering virtual environment/global and such stuff for now
-- tested
 
 ## They way of using scripts
 
 - This is very important
-- In root folder is script folder
-- I run scripts with
-
-```sh
- python .\script\setup_django.py
-```
-
-- cleaing console with
-
-```sh
-cls
-```
-
+- In root folder are scripts folders: root/scripts, ..., root/django_scripts
 - Many a times i wrote wrappers with menus to run scripts
 - This run script wrappers made me loose the plot every time
 - DONT DO THEM UNLESS MUCH LATER AT MATURITY OF SCRIPTS
@@ -59,39 +56,18 @@ cls
 ## Generate project
 
 - I want a script to generate django project 'generate_project.py'
-- script is in root/script
-- make files and project in root
+- executes if django installed
+- make files and project in root folder witch is a repo folder
 - adds gitignore sections related to django proj
 - it needs to be run standalone and in bigger script both
-- has header: def generate_project(project_name=None, skip_migrations=False, skip_runserver=False):
 - it uses input if none or argparse for params form cli
 - check if proj alerady there
 - applay migrations optionaly
 - run server optionaly, in new cli so it is independant
-- usage:
-
-```sh
-python .\script\generate_project.py myproject
-```
-
-or optionaly:
-
-```sh
-python .\script\generate_project.py myproject --skip-migrations --skip-runserver
-```
-
-- tested
-
-## .gitignore
-
-- ignored 'linkshelf' project while testing scripts
-- ignored 'helpers' folder with some temporary helping utility scripts
-- ignored 'manage.py' from django test proj
 
 ## Delete test proj
 
 - script 'delete_project.py' removes db.sqlite3, linkshelf, manage.py
-- tested
 
 ## 2025-04-04
 
@@ -103,3 +79,5 @@ python .\script\generate_project.py myproject --skip-migrations --skip-runserver
 - generate py class representation of a data model
 
 ## Refactor scripts to generate in chosen repository
+
+- 'generate_project.py'

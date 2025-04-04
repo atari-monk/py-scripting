@@ -86,6 +86,44 @@ def get_gitignore_content(gitignore_template_path: Optional[str] = None) -> str:
                 return f.read()
         except IOError:
             print(f"Warning: Could not read gitignore template from {gitignore_template_path}, using default")
+            return get_default_gitignore_content()
+    return get_default_gitignore_content()
+
+def get_default_gitignore_content() -> str:
+    return """# Django
+
+        _.sqlite3
+        _.pyc
+        **pycache**/
+        _.log
+        _.pot
+        _.py[co]
+        _.sw[nop]
+        \*~
+        /.venv/
+        .env
+        .venv/
+        env/
+        venv/
+        ENV/
+        env.bak/
+        venv.bak/
+
+        # IDE
+
+        .idea/
+        .vscode/
+        _.suo
+        _.ntvs\*
+        _.njsproj
+        _.sln
+        \*.sw?
+
+        # Static files
+
+        staticfiles/
+        mediafiles/
+    """
 
 def main():
     if get_django_version() is None:
