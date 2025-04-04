@@ -87,3 +87,7 @@ python -m django_scripts.generate_project C:\atari-monk\code\linkshelf --gitigno
 ```
 
 - 'generate_app.py'
+
+```sh
+python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\code\linkshelf
+```
