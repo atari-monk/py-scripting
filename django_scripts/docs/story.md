@@ -81,3 +81,9 @@ C:\atari-monk\code\py-scripting
 ## Refactor scripts to generate in chosen repository
 
 - 'generate_project.py'
+
+```sh
+python -m django_scripts.generate_project C:\atari-monk\code\linkshelf --gitignore-template C:\atari-monk\code\py-scripting\data\django_gitignore.txt
+```
+
+- 'generate_app.py'
