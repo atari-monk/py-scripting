@@ -97,4 +97,9 @@ python .\script\generate_project.py myproject --skip-migrations --skip-runserver
 
 ## Generate model
 
-- script
+- script 'meta_model.py'
+- generate json representation of a data model
+- script 'model_class.py'
+- generate py class representation of a data model
+
+## Refactor scripts to generate in chosen repository
