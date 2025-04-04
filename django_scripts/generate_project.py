@@ -3,6 +3,7 @@ import sys
 import subprocess
 import argparse
 from typing import Optional
+from django_scripts.setup_django import get_django_version
 
 def generate_project(
     repo_path: Optional[str] = None,
@@ -87,6 +88,10 @@ def get_gitignore_content(gitignore_template_path: Optional[str] = None) -> str:
             print(f"Warning: Could not read gitignore template from {gitignore_template_path}, using default")
 
 def main():
+    if get_django_version() is None:
+        print("Error: Django is not installed. Please install Django before running this script.")
+        sys.exit(1)
+
     parser = argparse.ArgumentParser(description='Generate a new Django project in the specified directory.')
     parser.add_argument('repo_path', nargs='?', help='Path to the repository folder where project will be created')
     parser.add_argument('--skip-migrations', action='store_true', help='Skip applying initial migrations')
