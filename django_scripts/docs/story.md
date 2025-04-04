@@ -71,13 +71,6 @@ C:\atari-monk\code\py-scripting
 
 ## 2025-04-04
 
-## Generate model
-
-- script 'meta_model.py'
-- generate json representation of a data model
-- script 'model_class.py'
-- generate py class representation of a data model
-
 ## Refactor scripts to generate in chosen repository
 
 - 'generate_project.py'
@@ -91,3 +84,12 @@ python -m django_scripts.generate_project C:\atari-monk\code\linkshelf --gitigno
 ```sh
 python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\code\linkshelf
 ```
+
+## 2025-04-05
+
+## Generate model
+
+- script 'meta_model.py'
+- generate json representation of a data model
+- script 'model_class.py'
+- generate py class representation of a data model
