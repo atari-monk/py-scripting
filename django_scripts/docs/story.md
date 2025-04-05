@@ -22,10 +22,11 @@ C:\atari-monk\code\py-scripting
 │   ├── __init__.py
 │   ├── data
 │   │   └── django_gitignore.txt
-│   ├── delete_project.py
 │   ├── docs
 │   │   ├── historia.md
 │   │   └── story.md
+│   ├── generate_app.py
+│   ├── generate_gitignore.py
 │   ├── generate_project.py
 │   ├── meta_model.py
 │   ├── model_class.py
@@ -64,10 +65,6 @@ C:\atari-monk\code\py-scripting
 - check if proj alerady there
 - applay migrations optionaly
 - run server optionaly, in new cli so it is independant
-
-## Delete test proj
-
-- script 'delete_project.py' removes db.sqlite3, linkshelf, manage.py
 
 ## 2025-04-04
 
