@@ -1,9 +1,11 @@
 ## English
 
-- [Story about python scripts](scripts/docs/story.md)
-- [Story about Django](django_scripts/docs/story.md)
+- [Python Scripts Design](docs/python_scripts.md)
+- [Python Scripts](scripts/docs/story.md)
+- [Django Scripts](django_scripts/docs/story.md)
 
 ## Polski
 
-- [Historia o skryptach pythona](scripts/docs/historia.md)
-- [Historia o Django](django_scripts/docs/historia.md)
+- [Budowa/Konstrukcja Skryptów Pythona](docs/python_scripts.md)
+- [Skrypty Pythona](scripts/docs/historia.md)
+- [Skrypty Django](django_scripts/docs/historia.md)

@@ -47,3 +47,9 @@ python -m unittest .\tests\test_remove_comments.py
 
 - i want a py script using web camera to detect something
 - for example blue ball in my hand
+
+## **2025-04-05**
+
+## remove_folder_content.py
+
+- removes folder content
