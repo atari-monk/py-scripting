@@ -93,3 +93,4 @@ python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\cod
 - generate json representation of a data model
 - script 'model_class.py'
 - generate py class representation of a data model
+- sctipt 'remove_folder_content.py', removes folder content

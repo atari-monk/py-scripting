@@ -5,10 +5,9 @@ import sys
 import argparse
 from typing import Optional
 
-def generate_app(project_name: Optional[str] = None, 
-                 app_name: Optional[str] = None, 
-                 repo_path: Optional[str] = None) -> None:
-    """Generate a Django app within an existing project."""
+def generate_app(repo_path: Optional[str] = None,
+    project_name: Optional[str] = None, 
+    app_name: Optional[str] = None) -> None:
     if repo_path is None:
         repo_path = input("Enter the repository folder path for the project: ").strip()
         if not repo_path:
@@ -108,7 +107,6 @@ def add_app_to_installed_apps(settings_path: str, app_name: str) -> None:
         print(f"    '{app_name}',\n")
 
 def main() -> None:
-    """Parse command line arguments and execute the app generation."""
     parser = argparse.ArgumentParser(
         description="Create a new Django app within an existing project."
     )

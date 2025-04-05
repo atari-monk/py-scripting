@@ -65,13 +65,16 @@ def generate_model_metadata() -> Dict[str, Any]:
         "fields": fields
     }
 
-def save_metadata(metadata: Dict[str, Any]) -> str:
+def write_metadata_file(metadata: Dict[str, Any]) -> str:
     filename = f"{metadata['model_name'].lower()}_model_metadata.json"
     with open(filename, 'w') as f:
         json.dump(metadata, f, indent=2)
     return filename
 
-def save_meta_model():
+def write_meta_model():
     metadata = generate_model_metadata()
-    filename = save_metadata(metadata)
-    print(f"\n✅ Model metadata saved to {filename}")
+    filename = write_metadata_file(metadata)
+    print(f"\n✅ Model metadata written to {filename}")
+
+if __name__ == '__main__':
+    write_meta_model()

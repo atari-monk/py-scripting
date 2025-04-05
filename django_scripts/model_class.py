@@ -1,8 +1,7 @@
 import json
 from typing import Dict, Any
 
-def generate_model_code(metadata: Dict[str, Any]) -> str:
-
+def generate_model_class_code(metadata: Dict[str, Any]) -> str:
     if not metadata or 'model_name' not in metadata or 'fields' not in metadata:
         raise ValueError("Invalid metadata: must contain 'model_name' and 'fields'")
 
@@ -34,8 +33,7 @@ def generate_model_code(metadata: Dict[str, Any]) -> str:
 
     return "\n".join(lines)
 
-def save_model_code(model_code: str, metadata: Dict[str, Any]) -> str:
-
+def write_model_class_file(model_code: str, metadata: Dict[str, Any]) -> str:
     if not model_code or not metadata or 'model_name' not in metadata:
         raise ValueError("Invalid model code or metadata")
 
@@ -44,19 +42,18 @@ def save_model_code(model_code: str, metadata: Dict[str, Any]) -> str:
         f.write(model_code)
     return filename
 
-def save_model_class():
-
+def write_model_class_file_from_metadata():
     try:
         metadata_file = input("📌 Enter path to metadata JSON file: ").strip()
 
         with open(metadata_file, encoding='utf-8') as f:
             metadata = json.load(f)
 
-        model_code = generate_model_code(metadata)
+        model_code = generate_model_class_code(metadata)
         print("\nGenerated Model Code:\n")
         print(model_code)
 
-        filename = save_model_code(model_code, metadata)
+        filename = write_model_class_file(model_code, metadata)
         print(f"\n✅ Model code saved to {filename}")
 
     except FileNotFoundError:
@@ -67,4 +64,4 @@ def save_model_class():
         print(f"❌ An error occurred: {str(e)}")
 
 if __name__ == "__main__":
-    save_model_class()
+    write_model_class_file_from_metadata()
