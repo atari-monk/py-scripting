@@ -1,5 +1,0 @@
-# Folder Structure
-
-```
-
-```
