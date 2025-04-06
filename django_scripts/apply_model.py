@@ -31,29 +31,6 @@ def append_to_models_file(app_path, model_code):
     
     print(f"Model code appended to {models_path}")
 
-def update_settings(project_path, app_name):
-    settings_path = os.path.join(project_path, os.path.basename(project_path), 'settings.py')
-    
-    try:
-        with open(settings_path, 'r') as f:
-            content = f.read()
-        
-        if f"'{app_name}'" not in content and f'"{app_name}"' not in content:
-            updated_content = content.replace(
-                'INSTALLED_APPS = [',
-                f'INSTALLED_APPS = [\n    \'{app_name}\','
-            )
-            
-            with open(settings_path, 'w') as f:
-                f.write(updated_content)
-            print(f"Added '{app_name}' to INSTALLED_APPS in settings.py")
-        else:
-            print(f"'{app_name}' already in INSTALLED_APPS")
-            
-    except Exception as e:
-        print(f"Error updating settings.py: {e}")
-        sys.exit(1)
-
 def run_migrations(repo_path):
     os.chdir(repo_path)
     
@@ -88,9 +65,6 @@ def main():
     
     print("\nUpdating models.py...")
     append_to_models_file(app_path, model_code)
-    
-    print("\nChecking settings.py...")
-    update_settings(repo_path, app_name)
     
     print("\nRunning migrations...")
     run_migrations(repo_path)
