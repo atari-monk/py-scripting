@@ -1,36 +1,8 @@
 # Story about django scripts
 
+Learn django and write automation scripts for it.
+
 ## 2025-04-02
-
-## Objective
-
-- I want to learn django.
-- Write automation scripts.
-
-## Project Tree
-
-Simple but organized.
-
-```plaintext
-C:\atari-monk\code\py-scripting
-├── .gitignore
-├── .vscode
-│   └── launch.json
-├── django_scripts
-│   ├── __init__.py
-│   ├── data
-│   │   └── django_gitignore.txt
-│   ├── docs
-│   │   ├── historia.md
-│   │   └── story.md
-│   ├── generate_app.py
-│   ├── generate_gitignore.py
-│   ├── generate_project.py
-│   ├── meta_model.py
-│   ├── model_class.py
-│   └── setup_django.py
-└── index.md
-```
 
 ## setup_django.py
 
@@ -87,3 +59,7 @@ python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\cod
 - appends model to app name/models.py
 - updates project settings
 - create and apply migrations
+
+## 2025-04-06
+
+- Test and fix apply_model.py
