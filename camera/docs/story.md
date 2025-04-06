@@ -5,3 +5,5 @@
 ## [Blue Ball Detector](blue_ball_detector.md)
 
 ## [Game Ideas](game_ideas.md)
+
+## [Publish Itch.io](publish_itch.io.md)
