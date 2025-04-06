@@ -2,4 +2,6 @@
 
 ## **2025-04-06**
 
-## [blue_ball_detector](blue_ball_detector.md)
+## [Blue Ball Detector](blue_ball_detector.md)
+
+## [Game Ideas](game_ideas.md)

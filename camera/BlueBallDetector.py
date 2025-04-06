@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 
 class BlueBallDetector:
-    def __init__(self, camera_index=0):
+    def __init__(self, event_bus, camera_index=0):
+        self.event_bus = event_bus
         self.cap = cv2.VideoCapture(camera_index)
         if not self.cap.isOpened():
             raise Exception("Cannot open webcam")
@@ -28,6 +29,7 @@ class BlueBallDetector:
                 cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
                 cv2.putText(frame, "Blue Object", (int(x - radius), int(y - radius)),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+                self.event_bus.publish("blue_ball_position", (int(x), int(y)))
         return frame, mask
 
     def run(self):
