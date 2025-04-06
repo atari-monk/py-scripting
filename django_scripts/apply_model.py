@@ -4,31 +4,37 @@ import sys
 import pyperclip
 from subprocess import call
 
+def clean_string(s):
+    return s.strip().replace('\r\n', '\n')
+
 def get_model_code(source):
     if source == 'clipboard':
         try:
-            return pyperclip.paste()
+            return clean_string(pyperclip.paste())
         except Exception as e:
             print(f"Error accessing clipboard: {e}")
             sys.exit(1)
     else:
         try:
             with open(source, 'r') as f:
-                return f.read()
+                return clean_string(f.read())
         except Exception as e:
             print(f"Error reading model file: {e}")
             sys.exit(1)
 
 def append_to_models_file(app_path, model_code):
     models_path = os.path.join(app_path, 'models.py')
+    print(f"Models path: {models_path}")
     
     if not os.path.exists(models_path):
         with open(models_path, 'w') as f:
-            f.write("from django.db import models\n\n")
+            pass
     
     model_code = model_code.strip()
     model_code = model_code.strip().replace('\r\n', '\n')
     
+    print(f"Model code: {model_code}")
+
     with open(models_path, 'a') as f:
         f.write('\n' + model_code + '\n')
 
@@ -62,6 +68,11 @@ def main():
     
     print("\nGetting model code...")
     model_code = get_model_code(source)
+    
+    if not model_code:
+        print("Error: Model code is empty. Please provide valid model code.")
+        sys.exit(1)
+    
     print(f"Model code acquired from {'clipboard' if source == 'clipboard' else source}")
     
     print("\nUpdating models.py...")
