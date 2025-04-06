@@ -3,6 +3,7 @@
 - [Python Scripts Design](docs/python_scripts.md)
 - [Python Scripts](scripts/docs/story.md)
 - [Django Scripts](django_scripts/docs/story.md)
+- [Camera](camera/docs/story.md)
 
 ## Polski
 
