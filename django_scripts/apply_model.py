@@ -26,10 +26,11 @@ def append_to_models_file(app_path, model_code):
         with open(models_path, 'w') as f:
             f.write("from django.db import models\n\n")
     
-    with open(models_path, 'a') as f:
-        f.write('\n\n' + model_code)
+    model_code = model_code.strip()
+    model_code = model_code.strip().replace('\r\n', '\n')
     
-    print(f"Model code appended to {models_path}")
+    with open(models_path, 'a') as f:
+        f.write('\n' + model_code + '\n')
 
 def run_migrations(repo_path):
     os.chdir(repo_path)
