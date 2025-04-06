@@ -2,6 +2,7 @@ import argparse
 import os
 import sys
 import pyperclip
+import re
 from subprocess import call
 
 def clean_string(s):
@@ -21,6 +22,24 @@ def get_model_code(source):
         except Exception as e:
             print(f"Error reading model file: {e}")
             sys.exit(1)
+
+def is_likely_django_model(code):
+    patterns = [
+        r'class\s+\w+\s*\(.*models\.Model',
+        r'class\s+\w+\s*\(.*\)\s*:\s*\n\s*.*models\.',
+        r'from\s+django\.db\s+import\s+models',
+        r'^\s*\w+\s*=\s*models\.\w+Field\s*\('
+    ]
+    
+    code = code.strip()
+    if not code:
+        return False
+    
+    for pattern in patterns:
+        if re.search(pattern, code, re.MULTILINE):
+            return True
+    
+    return False
 
 def append_to_models_file(app_path, model_code):
     models_path = os.path.join(app_path, 'models.py')
@@ -71,6 +90,9 @@ def main():
     
     if not model_code:
         print("Error: Model code is empty. Please provide valid model code.")
+        sys.exit(1)
+    if not is_likely_django_model(model_code):
+        print("Error: The provided code does not appear to be a Django model.")
         sys.exit(1)
     
     print(f"Model code acquired from {'clipboard' if source == 'clipboard' else source}")
