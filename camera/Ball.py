@@ -4,7 +4,7 @@ import numpy as np
 class Ball:
     def __init__(self):
         self.pos = [300, 150]
-        self.velocity = [6, 6]
+        self.velocity = [10, 10]
         self.radius = 10
         self.color = (0, 0, 255)  # Red
     
@@ -36,4 +36,4 @@ class Ball:
     
     def reset(self):
         self.pos = [300, 150]
-        self.velocity = [3, 3]
+        self.velocity = [10, 10]
