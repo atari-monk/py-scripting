@@ -1,8 +1,6 @@
 # Story about python scripts
 
-## **2025-04-03**
-
-## markdown_to_text.py
+## markdown_to_text.py **2025-04-03**
 
 - script to take markdown from clipboard
 - convert it to plain text
@@ -43,13 +41,15 @@ python -m unittest .\tests\test_remove_comments.py
 - get file path from argparse or input
 - saved in md file and clipboard
 
-## camera_detect.py
-
-- i want a py script using web camera to detect something
-- for example blue ball in my hand
-
-## **2025-04-05**
-
-## remove_folder_content.py
+## remove_folder_content.py **2025-04-05**
 
 - removes folder content
+
+## markdown_to_text.py **2025-04-07**
+
+- menu option to remove code sections
+
+## voice_to_text.py
+
+- tests mic
+- records mic, returns speach to text
