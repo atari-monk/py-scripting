@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from Paddle import Paddle
 
 class PaddleBallGame:
     def __init__(self, event_bus):
@@ -7,16 +8,15 @@ class PaddleBallGame:
         self.ball_pos = [300, 150]
         self.ball_velocity = [3, 3]
         self.score = 0
-        self.paddle_width = 100
-        self.paddle_x = 300
         self.game_over = False
         self.canvas = np.zeros((480, 640, 3), dtype=np.uint8)
+        self.paddle = Paddle()
         
         self.event_bus.subscribe("blue_ball_position", self.update_paddle)
 
     def update_paddle(self, blue_ball_pos):
         if blue_ball_pos:
-            self.paddle_x = blue_ball_pos[0]
+            self.paddle.update_position(blue_ball_pos[0])
 
     def update_game(self):
         if self.game_over:
@@ -31,10 +31,9 @@ class PaddleBallGame:
         if self.ball_pos[1] <= 10:
             self.ball_velocity[1] *= -1
 
-        paddle_min_x = self.paddle_x - self.paddle_width // 2
-        paddle_max_x = self.paddle_x + self.paddle_width // 2
-        if (450 <= self.ball_pos[1] <= 460 and 
-            paddle_min_x <= self.ball_pos[0] <= paddle_max_x):
+        paddle_left, paddle_top, paddle_right, paddle_bottom = self.paddle.get_rect()
+        if (paddle_top <= self.ball_pos[1] <= paddle_bottom and 
+            paddle_left <= self.ball_pos[0] <= paddle_right):
             self.ball_velocity[1] *= -1
             self.score += 1
 
@@ -45,13 +44,7 @@ class PaddleBallGame:
         self.canvas.fill(0)
         
         cv2.circle(self.canvas, tuple(self.ball_pos), 10, (0, 0, 255), -1)
-        
-        cv2.rectangle(
-            self.canvas,
-            (self.paddle_x - self.paddle_width // 2, 450),
-            (self.paddle_x + self.paddle_width // 2, 460),
-            (255, 0, 0), -1
-        )
+        self.paddle.draw(self.canvas)
         
         cv2.putText(
             self.canvas, f"Score: {self.score}", (10, 30),
@@ -75,3 +68,4 @@ class PaddleBallGame:
         self.ball_velocity = [3, 3]
         self.score = 0
         self.game_over = False
+        self.paddle = Paddle()
