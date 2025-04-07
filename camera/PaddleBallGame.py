@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 from Paddle import Paddle
+from Ball import Ball  # Assuming you saved the Ball class in Ball.py
 
 class PaddleBallGame:
     def __init__(self, event_bus):
         self.event_bus = event_bus
-        self.ball_pos = [300, 150]
-        self.ball_velocity = [3, 3]
+        self.ball = Ball()
         self.score = 0
         self.game_over = False
         self.canvas = np.zeros((480, 640, 3), dtype=np.uint8)
@@ -22,35 +22,29 @@ class PaddleBallGame:
         if self.game_over:
             return
             
-        self.ball_pos[0] += self.ball_velocity[0]
-        self.ball_pos[1] += self.ball_velocity[1]
-
-        if self.ball_pos[0] <= 10 or self.ball_pos[0] >= 630:
-            self.ball_velocity[0] *= -1
-
-        if self.ball_pos[1] <= 10:
-            self.ball_velocity[1] *= -1
-
-        paddle_left, paddle_top, paddle_right, paddle_bottom = self.paddle.get_rect()
-        if (paddle_top <= self.ball_pos[1] <= paddle_bottom and 
-            paddle_left <= self.ball_pos[0] <= paddle_right):
-            self.ball_velocity[1] *= -1
+        # Update ball and check for paddle hit
+        paddle_hit = self.ball.update(self.paddle)
+        if paddle_hit:
             self.score += 1
 
-        if self.ball_pos[1] >= 480:
+        # Check for game over condition
+        if self.ball.check_bottom_collision(480):
             self.game_over = True
 
     def draw(self):
         self.canvas.fill(0)
         
-        cv2.circle(self.canvas, tuple(self.ball_pos), 10, (0, 0, 255), -1)
+        # Draw game elements
+        self.ball.draw(self.canvas)
         self.paddle.draw(self.canvas)
         
+        # Draw score
         cv2.putText(
             self.canvas, f"Score: {self.score}", (10, 30),
             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2
         )
         
+        # Draw game over message if needed
         if self.game_over:
             cv2.putText(
                 self.canvas, "GAME OVER", (200, 240),
@@ -64,8 +58,7 @@ class PaddleBallGame:
         cv2.imshow("Paddle Ball Game", self.canvas)
 
     def reset_game(self):
-        self.ball_pos = [300, 150]
-        self.ball_velocity = [3, 3]
+        self.ball.reset()
         self.score = 0
         self.game_over = False
         self.paddle = Paddle()
