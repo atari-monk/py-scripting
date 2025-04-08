@@ -30,6 +30,3 @@ def create_parametric_plane(name="ParametricPlane", size_x=2.0, size_y=2.0, loca
     obj.location = location
     
     return obj
-
-if __name__ == "__main__":
-    plane = create_parametric_plane(name="RectanglePlane", size_x=4.0, size_y=2.0)
