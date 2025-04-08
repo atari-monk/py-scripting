@@ -1,22 +1,17 @@
 # Blender
 
-## plane.py **2025-04-08**
+## primitives.py **2025-04-08**
 
-- generates plane
-- to run in blender cli
-
-```py
-filepath = r"C:\atari-monk\code\py-scripting\blender\plane.py"
-exec(compile(open(filepath).read(), filepath, 'exec'))
-```
+- uses blender primitive models to generate meshes in python
 
 ## home.py
 
-- generates cabin
-- it is not practical to speciffy params in blender cli, better in script
+- generates cabin using specific params and functions
 - to run in blender cli
 
 ```py
 filepath = r"C:\atari-monk\code\py-scripting\blender\home.py"
 exec(compile(open(filepath).read(), filepath, 'exec'))
 ```
+
+## [Cabin](cabin.md)
