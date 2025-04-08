@@ -1,0 +1,12 @@
+# Blender
+
+## plane.py **2025-04-08**
+
+- generates plane
+
+- to run in blender cli
+
+```py
+filepath = r"C:\atari-monk\code\py-scripting\blender\plane.py"
+exec(compile(open(filepath).read(), filepath, 'exec'))
+```
