@@ -12,7 +12,8 @@ def get_active_chrome_profile(config_file="chrome_profiles.json"):
                 return {
                     "computerName": computer["computerName"],
                     "userName": computer["userName"],
-                    "chromeProfilePath": profile_path
+                    "chromeProfilePath": profile_path,
+                    "profileDirectory": computer["profileDirectory"],
                 }
         return None
         
