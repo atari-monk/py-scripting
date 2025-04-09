@@ -32,7 +32,7 @@ def save_response(driver, output_file="response.md", wait_time=60):
         print(f"Error saving response: {e}")
         return None
     
-def save_last_code_block(driver, output_file="response.md", wait_time=60):
+def save_last_code_block(driver, output_file="response.py", wait_time=60):
     try:
         copy_button_xpath = "(//button[contains(., 'Kopiuj')])[last()]"
         copy_button = WebDriverWait(driver, wait_time).until(
