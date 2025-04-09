@@ -1,0 +1,13 @@
+{
+	"chromeProfilePath": "C:/Users/{userName}/AppData/Local/Google/Chrome/User Data",
+	"computers": [
+		{
+			"computerName": "home-laptop",
+			"userName": "ASUS"
+		},
+		{
+			"computerName": "home-desktop",
+			"userName": "atari"
+		}
+	]
+}
