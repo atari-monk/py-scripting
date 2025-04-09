@@ -33,8 +33,3 @@ def initialize_chrome_with_profile(website_url=None, detach=True):
         print("Chrome initialized with profile but no page opened (no URL provided).")
     
     return driver
-
-# Example usage:
-# driver = initialize_chrome_with_profile()  # Opens Chrome with profile but no page
-# driver = initialize_chrome_with_profile("https://www.google.com")  # Opens Google
-# driver = initialize_chrome_with_profile(detach=False)  # Opens Chrome but closes when script ends
