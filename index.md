@@ -4,6 +4,7 @@
 - [Python Scripts](scripts/docs/story.md)
 - [Django Scripts](django_scripts/docs/story.md)
 - [Camera](camera/docs/story.md)
+- [Selenium Scripts](selenium_scripts/docs/story.md)
 
 ## Polski
 
