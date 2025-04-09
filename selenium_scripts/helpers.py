@@ -53,8 +53,6 @@ def save_chatgpt_prompt_response(
     wait_time=60,
     input_area_id="prompt-textarea",
     copy_button_xpath="//button[@data-testid='copy-turn-action-button']",
-    response_indicator_xpath="//div[contains(@class, 'markdown')]",
-    close_driver=False
 ):
     try:
         wait = WebDriverWait(driver, wait_time)
@@ -65,18 +63,6 @@ def save_chatgpt_prompt_response(
         input_area.clear()
         input_area.send_keys(prompt)
         input_area.send_keys(Keys.RETURN)
-        
-        print("Waiting for response...")
-        wait.until(EC.presence_of_element_located((By.XPATH, response_indicator_xpath)))
-        
-        print("Waiting for response to be fully visible and non-empty...")
-        response_element = wait.until(EC.visibility_of_element_located((By.XPATH, response_indicator_xpath)))
-        
-        response_text = response_element.text.strip()
-        if not response_text:
-            raise ValueError("Response is empty, likely failed to generate a proper response.")
-        
-        print("Response is ready to be copied.")
         
         print("Waiting for copy button...")
         copy_button = wait.until(EC.element_to_be_clickable((By.XPATH, copy_button_xpath)))
@@ -93,26 +79,21 @@ def save_chatgpt_prompt_response(
         
         print("Retrieving copied text...")
         copied_text = pyperclip.paste()
+        result = copied_text
         if not copied_text.strip():
             raise ValueError("Clipboard appears to be empty - possibly failed to copy response")
         
         print(f"Saving response to {output_file}...")
-        with open(output_file, "w", encoding="utf-8") as file:
-            file.write(copied_text)
+        with open(output_file, "a", encoding="utf-8") as file:
+            file.write(copied_text + "\n")
             
         print(f"Successfully saved response to {output_file}")
         
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-        if close_driver:
-            driver.quit()
-        return False
-    
-    finally:
-        if close_driver:
-            driver.quit()
-    
-    return True
+        result = None
+
+    return result
 
 # Example usage:
 # save_chatgpt_prompt_response(
@@ -120,6 +101,5 @@ def save_chatgpt_prompt_response(
 #     prompt="Write a Python function that calculates the Fibonacci sequence.", 
 #     output_file="fibonacci_response.md",
 #     input_area_id="prompt-textarea",
-#     copy_button_xpath="//button[@data-testid='copy-turn-action-button']",
-#     close_driver=True  # Set to True if you want to close the driver
+#     copy_button_xpath="//button[@data-testid='copy-turn-action-button']"
 # )
