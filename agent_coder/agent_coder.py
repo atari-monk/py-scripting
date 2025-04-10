@@ -1,8 +1,8 @@
 import time
 from chatgpt_scripts.chatgpt_automation import send_prompt, save_response, save_code_block
-from chatgpt_scripts.chatgpt_cli import initialize_chatgpt_session
+from chatgpt_scripts.chatgpt_cli import open_chatgpt_session, send_chatgpt_prompt
 
-driver = initialize_chatgpt_session(
+driver = open_chatgpt_session(
     page="https://chat.openai.com/",
     config_Path="data/chrome_profiles.json",
     detach=True,
@@ -13,12 +13,12 @@ assumptions = "Dont use comments in code. Do not wrtie anything but code."
 task = "Write a Python function that calculates the Fibonacci sequence."
 prompt = f"{assumptions} {task}"
 
-delay = 5
-print(f"2) Sending Prompt... ({delay} seconds delay)\n")
-
-print(prompt)
-send_prompt(driver, prompt)
-time.sleep(delay)
+send_chatgpt_prompt(driver=driver, prompt=prompt, delay_seconds=5)
+# delay = 5
+# print(f"2) Sending Prompt... ({delay} seconds delay)\n")
+# print(prompt)
+# send_prompt(driver, prompt)
+# time.sleep(delay)
 
 delay = 1
 print(f"3) Saving Response... ({delay} second delay)\n")

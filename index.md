@@ -1,2 +1,3 @@
 - [ToDo 2025](docs/todo_2025.md)
 - [Package](docs/package.md)
+- [Colorama Documentation (Basic Usage)](docs/colorama_cheatsheet.md)
