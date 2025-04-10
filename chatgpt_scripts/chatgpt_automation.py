@@ -17,7 +17,7 @@ def send_prompt(driver, prompt, input_area_id="prompt-textarea"):
         print(f"Failed to send prompt: {str(e)}")
         return False
     
-def save_response(driver, output_file="response.md", wait_time=60):
+def save_response(driver, output_file_path="response.md", wait_time=60):
     try:
         last_copy_button_xpath = "(//button[contains(., 'Kopiuj') or @data-testid='copy-turn-action-button'])[last()]"
         copy_button = WebDriverWait(driver, wait_time).until(
@@ -25,14 +25,14 @@ def save_response(driver, output_file="response.md", wait_time=60):
         driver.execute_script("arguments[0].click();", copy_button)
         time.sleep(1)
         response = pyperclip.paste()
-        with open(output_file, "a", encoding="utf-8") as f:
+        with open(output_file_path, "a", encoding="utf-8") as f:
             f.write(response + "\n\n")
         return response
     except Exception as e:
         print(f"Error saving response: {e}")
         return None
     
-def save_code_block(driver, output_file="response.py", wait_time=60):
+def save_code_block(driver, output_file_path="response.py", wait_time=60):
     try:
         copy_button_xpath = "(//button[contains(., 'Kopiuj')])[last()]"
         copy_button = WebDriverWait(driver, wait_time).until(
@@ -40,7 +40,7 @@ def save_code_block(driver, output_file="response.py", wait_time=60):
         driver.execute_script("arguments[0].click();", copy_button)
         time.sleep(1)
         response = pyperclip.paste()
-        with open(output_file, "a", encoding="utf-8") as f:
+        with open(output_file_path, "a", encoding="utf-8") as f:
             f.write(response + "\n\n")
         return response
     except Exception as e:

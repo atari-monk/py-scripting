@@ -18,10 +18,10 @@ def send_chatgpt_prompt(driver, prompt: str, delay_seconds: int) -> None:
     send_prompt(driver, prompt)
     time.sleep(delay_seconds)
 
-def save_chatgpt_code_block(driver, delay_seconds: int) -> None:
+def save_chatgpt_code_block(driver, output_file_path:str, delay_seconds: int) -> None:
     message = f"Saving Response... ({delay_seconds} second delay)\n"
     color_print(message, Fore.RED, style=Style.BRIGHT)
-    response = save_code_block(driver=driver)
-    print("Response 1:")
+    response = save_code_block(driver=driver, output_file_path=output_file_path)
+    print("Response:")
     print(response)
     time.sleep(delay_seconds)

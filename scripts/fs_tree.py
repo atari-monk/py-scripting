@@ -7,7 +7,7 @@ IGNORE_FILES = [".DS_Store", "Thumbs.db", "package-lock.json"]
 
 def get_default_output_path(input_path):
     base_directory = os.path.basename(os.path.normpath(input_path))
-    return os.path.join(input_path, f"{base_directory}_folder_structure.md")
+    return os.path.join(input_path, f"{base_directory}_structure.md")
 
 def generate_tree(directory, prefix=""):
     entries = sorted(os.listdir(directory))
@@ -31,14 +31,14 @@ def generate_tree(directory, prefix=""):
 
     return tree_str
 
-def save_tree_to_md(directory, output_file="folder_structure.md"):
-    tree_md = f"# Folder Structure\n\n```\n{directory}\n" + generate_tree(directory) + "```\n"
+def save_tree_to_md(directory, output_file):
+    tree_md = f"# Files Structure\n\n```\n{directory}\n" + generate_tree(directory) + "```\n"
 
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(tree_md)
 
     pyperclip.copy(tree_md)
-    print(f"✅ Folder structure saved to {output_file} and copied to clipboard!")
+    print(f"✅ Files structure saved to {output_file} and copied to clipboard!")
 
 def generate_folder_structure(directory_path=None, output_file=None):
 
