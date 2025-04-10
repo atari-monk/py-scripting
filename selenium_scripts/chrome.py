@@ -34,9 +34,3 @@ def initialize_chrome_with_profile(website_url=None, detach=True):
         print("Chrome initialized with profile but no page opened (no URL provided).")
     
     return driver
-
-def initialize_chatgpt_session(page: str, detach: bool, delay_seconds: int) -> None:
-    print(f"1) Initializing Chrome with profile... ({delay_seconds} seconds delay)\n")
-    driver = initialize_chrome_with_profile(page, detach=detach)
-    time.sleep(delay_seconds)
-    return driver

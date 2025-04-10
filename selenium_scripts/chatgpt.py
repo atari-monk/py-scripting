@@ -4,6 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pyperclip
 import time
+from selenium_scripts.chrome import initialize_chrome_with_profile
+
+def initialize_chatgpt_session(page: str, detach: bool, delay_seconds: int) -> None:
+    print(f"1) Initializing Chrome with profile... ({delay_seconds} seconds delay)\n")
+    driver = initialize_chrome_with_profile(page, detach=detach)
+    time.sleep(delay_seconds)
+    return driver
 
 def send_prompt(driver, prompt, input_area_id="prompt-textarea"):
     try:
