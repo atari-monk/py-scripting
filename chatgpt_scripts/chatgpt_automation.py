@@ -16,6 +16,25 @@ def send_prompt(driver, prompt, input_area_id="prompt-textarea"):
     except Exception as e:
         print(f"Failed to send prompt: {str(e)}")
         return False
+
+def send_multiline_prompt(driver, prompt, input_area_id="prompt-textarea"):
+    try:
+        input_area = driver.find_element(By.ID, input_area_id)
+        input_area.clear()
+        
+        lines = prompt.split('\n')
+        for i, line in enumerate(lines):
+            input_area.send_keys(line)
+            if i < len(lines) - 1:
+                input_area.send_keys(Keys.SHIFT, Keys.ENTER)
+                input_area.send_keys(Keys.NULL)
+        
+        input_area.send_keys(Keys.RETURN)
+        print("Prompt sent successfully")
+        return True
+    except Exception as e:
+        print(f"Failed to send prompt: {str(e)}")
+        return False
     
 def save_response(driver, output_file_path="response.md", wait_time=60):
     try:

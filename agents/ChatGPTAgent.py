@@ -31,9 +31,9 @@ class ChatGPTAgent:
         save_chatgpt_code_block(driver=self.driver, output_file_path=output_file_path, delay_seconds=delay_seconds)
   
 if __name__ == "__main__":
-    agentChatGPT = ChatGPTAgent()
-    agentChatGPT.send_prompt("Dont use comments in code. Do not wrtie anything but code. Write a Python function that calculates the Fibonacci sequence.")
-    agentChatGPT.save_code("data/code/fibonacci.py")
-    agentChatGPT.send_prompt("Write a automatic unit test.")
-    agentChatGPT.save_code("data/code/fibonacci.test.py")
-    agentChatGPT.close()
+    c = ChatGPTAgent()
+    c.send_prompt("Dont use comments in code. Do not wrtie anything but code. Write a Python function that calculates the Fibonacci sequence.")
+    c.save_code("data/code/fibonacci.py")
+    c.send_prompt("Write a automatic unit test.")
+    c.save_code("data/code/fibonacci.test.py")
+    c.close()
