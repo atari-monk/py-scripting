@@ -1,0 +1,12 @@
+# Core requirements
+fastapi>=0.95.2
+uvicorn>=0.22.0
+pydantic>=2.0
+
+# CLI-specific
+questionary>=1.10.0
+requests>=2.28.2
+
+# Development extras (optional)
+pytest>=7.2.0
+httpx>=0.24.0
