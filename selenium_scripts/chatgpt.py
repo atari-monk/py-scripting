@@ -6,9 +6,9 @@ import pyperclip
 import time
 from selenium_scripts.chrome import initialize_chrome_with_profile
 
-def initialize_chatgpt_session(page: str, detach: bool, delay_seconds: int) -> None:
+def initialize_chatgpt_session(page: str, config_Path: str, detach: bool, delay_seconds: int) -> None:
     print(f"1) Initializing Chrome with profile... ({delay_seconds} seconds delay)\n")
-    driver = initialize_chrome_with_profile(page, detach=detach)
+    driver = initialize_chrome_with_profile(page, config_Path, detach=detach)
     time.sleep(delay_seconds)
     return driver
 

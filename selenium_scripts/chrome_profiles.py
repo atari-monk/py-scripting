@@ -1,7 +1,9 @@
 import json
 import os
 
-def get_active_chrome_profile(config_file="chrome_profiles.json"):
+def get_active_chrome_profile(config_file=None):
+    if config_file is None:
+        return None
     try:
         with open(config_file) as f:
             config = json.load(f)

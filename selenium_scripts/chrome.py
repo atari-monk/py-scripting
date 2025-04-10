@@ -2,11 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium_scripts.chrome_profiles import get_active_chrome_profile
 
-def initialize_chrome_with_profile(website_url=None, detach=True):
+def initialize_chrome_with_profile(website_url=None, config_Path=None, detach=True):
     active_profile = ''
     profile_directory = ''
     
-    if (profile := get_active_chrome_profile()):
+    if (profile := get_active_chrome_profile(config_Path)):
         active_profile = profile['chromeProfilePath']
         profile_directory = profile['profileDirectory']
         print(f"Active Profile: {active_profile}, Profile Directory: {profile_directory}")
