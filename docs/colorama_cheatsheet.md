@@ -58,3 +58,13 @@ def color_print(text, color=Fore.WHITE, bg=Back.BLACK, style=Style.NORMAL):
 
 color_print("Warning!", Fore.RED, style=Style.BRIGHT)
 ```
+
+## Init
+
+To use it in powershell it needs to run this function:
+
+```python
+from colorama import init
+
+init()
+```
