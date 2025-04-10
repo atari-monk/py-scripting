@@ -6,6 +6,7 @@
   - [Requirements](task_system/docs/session_001/doc_005.md)
   - [Cli Wizard](task_system/docs/session_001/doc_006.md)
   - [GET /tasks/ endpoint](task_system/docs/session_001/doc_007.md)
+  - [Pydantic V2 Migration](task_system/docs/session_001/doc_008.md)
 - [ToDo 2025](docs/todo_2025.md)
 - [Package](docs/package.md)
 - [Colorama Documentation (Basic Usage)](docs/colorama_cheatsheet.md)
