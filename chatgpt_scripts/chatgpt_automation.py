@@ -4,13 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pyperclip
 import time
-from selenium_scripts.chrome import initialize_chrome_with_profile
-
-def initialize_chatgpt_session(page: str, config_Path: str, detach: bool, delay_seconds: int) -> None:
-    print(f"1) Initializing Chrome with profile... ({delay_seconds} seconds delay)\n")
-    driver = initialize_chrome_with_profile(page, config_Path, detach=detach)
-    time.sleep(delay_seconds)
-    return driver
 
 def send_prompt(driver, prompt, input_area_id="prompt-textarea"):
     try:
@@ -39,7 +32,7 @@ def save_response(driver, output_file="response.md", wait_time=60):
         print(f"Error saving response: {e}")
         return None
     
-def save_last_code_block(driver, output_file="response.py", wait_time=60):
+def save_code_block(driver, output_file="response.py", wait_time=60):
     try:
         copy_button_xpath = "(//button[contains(., 'Kopiuj')])[last()]"
         copy_button = WebDriverWait(driver, wait_time).until(

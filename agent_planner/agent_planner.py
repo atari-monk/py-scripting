@@ -1,4 +1,4 @@
-from selenium_scripts.chatgpt import initialize_chatgpt_session
+from chatgpt_scripts.chatgpt_cli import initialize_chatgpt_session
 
 driver = initialize_chatgpt_session(
     page="https://chat.openai.com/",

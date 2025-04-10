@@ -1,12 +1,13 @@
 import time
-from chrome import initialize_chrome_with_profile
-from chatgpt import send_prompt, save_response, save_last_code_block
+from chatgpt_scripts.chatgpt_automation import send_prompt, save_response, save_code_block
+from chatgpt_scripts.chatgpt_cli import initialize_chatgpt_session
 
-delay = 4
-print(f"1) Initializing Chrome with profile... ({delay} seconds delay)\n")
-
-driver = initialize_chrome_with_profile("https://chat.openai.com/", detach=True)
-time.sleep(delay)
+driver = initialize_chatgpt_session(
+    page="https://chat.openai.com/",
+    config_Path="data/chrome_profiles.json",
+    detach=True,
+    delay_seconds=4
+)
 
 assumptions = "Dont use comments in code. Do not wrtie anything but code."
 task = "Write a Python function that calculates the Fibonacci sequence."
@@ -22,7 +23,7 @@ time.sleep(delay)
 delay = 1
 print(f"3) Saving Response... ({delay} second delay)\n")
 
-response = save_last_code_block(driver=driver)
+response = save_code_block(driver=driver)
 print("Response 1:")
 print(response)
 time.sleep(delay)
@@ -38,7 +39,7 @@ time.sleep(10)
 delay = 1
 print(f"5) Saving Response... ({delay} second delay)")
 
-response2 = save_last_code_block(driver=driver)
+response2 = save_code_block(driver=driver)
 time.sleep(1)
 
 print("Response 2:")

@@ -1,9 +1,9 @@
 # Python Local Package
 
-## Import problem
+## Imports Problem
 
-How to make imports work in repo project ?  
-Make repo a py module
+Problem: How to make imports work in repo project ?  
+Solution: Make repo a py module
 
 ## Local editable Package
 

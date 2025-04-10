@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium_scripts.chrome_profiles import get_active_chrome_profile
+from chrome_scripts.chrome_profiles import get_active_chrome_profile
 
-def initialize_chrome_with_profile(website_url=None, config_Path=None, detach=True):
+def open_chrome_with_profile(website_url=None, config_Path=None, detach=True):
     active_profile = ''
     profile_directory = ''
     
