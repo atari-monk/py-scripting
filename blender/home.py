@@ -1,5 +1,3 @@
-import sys
-sys.path.append(r"C:\atari-monk\code\py-scripting\blender")
 import primitives
 import utils
 

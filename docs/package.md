@@ -5,6 +5,8 @@
 How to make imports work in repo project ?  
 Make repo a py module
 
+## Local editable Package
+
 ```sh
 pip install setuptools
 ```
@@ -39,6 +41,20 @@ Check Your Python Environment
 
 ```
 python -c "import sys; print(sys.executable)"
+```
+
+Clean Reinstall
+
+```sh
+pip uninstall py_scripting -y
+```
+
+Remove py_scripting.egg-info folder
+
+Reinstall
+
+```sh
+pip install -e .
 ```
 
 Now you can import cleanly from anywhere:
