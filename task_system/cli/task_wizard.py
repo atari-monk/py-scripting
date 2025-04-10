@@ -162,25 +162,34 @@ def delete_task():
 def list_tasks():
     print("\n=== Task List ===")
     response = requests.get(f"{API_BASE_URL}/tasks/")
-    
+
     if response.ok:
         tasks = response.json()
         if not tasks:
             print("No tasks found")
             return
-            
+
+        # Display as a numbered list
+        for i, (task_id, task) in enumerate(tasks.items(), 1):
+            print(f"{i}. {task['title']} (ID: {task_id})")
+            print(f"   Language: {task.get('language', 'N/A')}")
+            print(f"   Difficulty: {task.get('difficulty', 'N/A')}")
+            print("-" * 40)
+
+        # Add option to view details
+        task_ids = list(tasks.keys())
         choices = [
-            (f"{task['id']}: {task['title']} ({task['language']})", task['id'])
-            for task in tasks.values()
-        ]
-        
-        selected_id = questionary.select(
-            "Select task to view:",
-            choices=choices + [("Back", None)]
+            questionary.Choice(f"View details of task {i+1}", value=task_ids[i])
+            for i in range(len(task_ids))
+        ] + [questionary.Choice("Return to main menu", value=None)]
+
+        selected = questionary.select(
+            "Select a task to view details or return:",
+            choices=choices
         ).ask()
-        
-        if selected_id:
-            view_task(selected_id)
+
+        if selected:
+            view_task(selected)
     else:
         handle_response(response)
 

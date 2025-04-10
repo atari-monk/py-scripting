@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, RootModel
 from typing import List, Optional
 from datetime import datetime
+from typing import Dict
 import uuid
 
 class TaskInputOutput(BaseModel):
@@ -19,3 +20,6 @@ class CodingTask(BaseModel):
     tags: Optional[List[str]] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class TaskListResponse(RootModel):
+    root: Dict[str, CodingTask]

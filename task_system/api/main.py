@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, field_validator  # Changed import
 from typing import List, Optional
 from datetime import datetime
 import uuid
+from task_system.api.models import TaskListResponse
 
 app = FastAPI()
 
@@ -51,3 +52,8 @@ async def update_task(task_id: str, task: CodingTask):
     task.updated_at = datetime.utcnow()
     tasks_db[task_id] = task.model_dump()  # Changed from .dict() to .model_dump()
     return task
+
+@app.get("/tasks/", response_model=TaskListResponse)
+async def list_tasks():
+    """List all tasks"""
+    return tasks_db  # Returns the entire in-memory database
