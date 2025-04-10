@@ -1,3 +1,8 @@
+- Task system:
+  - [Idea](task_system/docs/session_001/doc_001.md)
+  - [Solution](task_system/docs/session_001/doc_002.md)
+  - [Implementation](task_system/docs/session_001/doc_003.md)
+  - [Implementation Structure](task_system/docs/session_001/doc_004.md)
 - [ToDo 2025](docs/todo_2025.md)
 - [Package](docs/package.md)
 - [Colorama Documentation (Basic Usage)](docs/colorama_cheatsheet.md)
