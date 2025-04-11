@@ -28,10 +28,7 @@ There is packages to do instead.
 
   - One docs folder in repo
   - All markdown docs in docs folder,
-  - has additionally:
-    - data (folder for data)
-    - task_db (folder for task_system api data storage)
-    - other folders with categories of md docs
+  - Docs must be strictly on topic of this repo content !
 
   index.md is updated by script:
 
