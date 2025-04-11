@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 
 def get_files_file_extensions():
     return ['.json', '.html', '.js', '.css', '.ts', '.py']
@@ -54,7 +55,7 @@ def write_txt_file(file_paths, project_folder, output_file):
             except Exception as e:
                 f.write(f"Could not read file content: {e}\n\n")
 
-def merge(project_folder):
+def merge(project_folder, generate_md=False):
     if not os.path.isdir(project_folder):
         print("The provided path is not valid. Exiting.")
         return
@@ -71,20 +72,26 @@ def merge(project_folder):
         write_txt_file(file_paths, project_folder, output_file_txt)
         print(f"Text file saved to: {output_file_txt}")
 
-        output_file_md = os.path.join(project_folder, "merge.md")
-        write_md_file(file_paths, project_folder, output_file_md)
-        print(f"Markdown file saved to: {output_file_md}")
-    except KeyboardInterrupt:
-        print("\nOperation cancelled by user. Exiting gracefully.")
-        sys.exit(0)
+        if generate_md:
+            output_file_md = os.path.join(project_folder, "merge.md")
+            write_md_file(file_paths, project_folder, output_file_md)
+            print(f"Markdown file saved to: {output_file_md}")
     except Exception as e:
         print(f"An error occurred: {e}")
         sys.exit(1)
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <project_folder_path>")
-        sys.exit(1)
+def main():
+    parser = argparse.ArgumentParser(description='Merge project files into a single output file.')
+    parser.add_argument('project_folder', nargs='?', help='Path to the project folder')
+    parser.add_argument('-md', '--markdown', action='store_true', 
+                       help='Generate markdown output in addition to text')
     
-    project_folder = sys.argv[1]
-    merge(project_folder)
+    args = parser.parse_args()
+    
+    if not args.project_folder:
+        args.project_folder = input("Enter project folder path: ")
+    
+    merge(args.project_folder, args.markdown)
+
+if __name__ == "__main__":
+    main()
