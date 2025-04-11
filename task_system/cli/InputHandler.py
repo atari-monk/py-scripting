@@ -1,8 +1,5 @@
 import questionary
-
-
-from typing import List
-
+from typing import List, Optional
 
 class InputHandler:
     @staticmethod

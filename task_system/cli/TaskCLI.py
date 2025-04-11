@@ -1,10 +1,7 @@
 from task_system.cli.Operation import Operation
 from task_system.cli.OperationFactory import OperationFactory
 from task_system.cli.TaskClientInterface import TaskClientInterface
-
-
 import questionary
-
 
 class TaskCLI:
     def __init__(self, client: TaskClientInterface):

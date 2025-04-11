@@ -7,7 +7,6 @@ from task_system.cli.TaskClientInterface import TaskClientInterface
 from task_system.cli.UpdateTaskOperation import UpdateTaskOperation
 from task_system.cli.ViewTaskOperation import ViewTaskOperation
 
-
 class OperationFactory:
     @staticmethod
     def create_operation(operation: Operation, client: TaskClientInterface) -> OperationStrategy:

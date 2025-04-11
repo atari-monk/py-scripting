@@ -1,7 +1,6 @@
+from typing import Optional
 from task_system.cli.OperationStrategy import OperationStrategy
 from task_system.cli.ResponseHandler import ResponseHandler
-
-
 import questionary
 
 

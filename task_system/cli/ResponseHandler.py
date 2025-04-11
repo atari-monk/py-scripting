@@ -1,8 +1,6 @@
+from typing import Optional
 import requests
-
-
 import json
-
 
 class ResponseHandler:
     @staticmethod
