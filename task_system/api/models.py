@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field, RootModel, field_validator
 from typing import List, Optional
 from datetime import datetime
 from typing import Dict
@@ -20,6 +20,13 @@ class CodingTask(BaseModel):
     tags: Optional[List[str]] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    @field_validator('requirements')
+    @classmethod
+    def validate_requirements(cls, v):
+        if len(v) < 1:
+            raise ValueError("At least one requirement is needed")
+        return v
 
 class TaskListResponse(RootModel):
     root: Dict[str, CodingTask]
