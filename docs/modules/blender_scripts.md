@@ -11,7 +11,7 @@ Python Scripts Module for Blender
 
 - generates cabin using specific params and functions
 
-- to run in blender cli
+to run in blender cli:
 
 ```py
 filepath = r"C:\atari-monk\code\py-scripting\blender_scripts\home.py"

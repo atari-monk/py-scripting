@@ -1,8 +1,7 @@
-# Story about django scripts
+# Django Scripts
 
+Python Scripts Module for Django.  
 Learn django and write automation scripts for it.
-
-## 2025-04-02
 
 ## setup_django.py
 
@@ -24,23 +23,23 @@ Learn django and write automation scripts for it.
 - applay migrations optionaly
 - run server optionaly, in new cli so it is independant
 
+to run in cli:
+
 ```sh
-python -m django_scripts.generate_project C:\atari-monk\code linkshelf --gitignore-template C:\atari-monk\code\py-scripting\data\django_gitignore.txt
+python -m django_scripts.generate_project C:\atari-monk\code proj_name --gitignore-template C:\atari-monk\code\py-scripting\docs\data\django_gitignore.txt
 ```
 
 ## generate_app.py
 
 - generates app in django project
 
+to run in cli:
+
 ```sh
-python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\code\linkshelf
+python -m django_scripts.generate_app -p proj_name -a app_name -r C:\atari-monk\code\proj_name
 ```
 
-## 2025-04-04
-
-- Refactor scripts to generate proj and app, in chosen repository
-
-## 2025-04-05
+- Scripts generate proj and app, in chosen repository
 
 ## meta_model.py
 
@@ -59,7 +58,3 @@ python -m django_scripts.generate_app -p linkshelf -a links -r C:\atari-monk\cod
 - appends model to app name/models.py
 - updates project settings
 - create and apply migrations
-
-## 2025-04-06
-
-- Test and fix apply_model.py
