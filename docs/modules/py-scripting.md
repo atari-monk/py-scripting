@@ -1,6 +1,6 @@
 # py-scripting
 
-Repo with py scripts.
+Repo with python scripts.
 
 ## On Wrappers
 
@@ -12,25 +12,29 @@ There is packages to do instead.
 
 ## Repo structure Assumptions
 
-- Repo documents in root
+- Repo files in root
+
   - setup.py
   - requirements.txt
   - index.md (for github pages on root)
-  - \_\_init\_\_.py
+  - \_\_init\_\_.py (repo is also py module)
   - .gitignore
   - .vscode
   - docs
   - py_scripting.egg-info (module data, not in source control)
-- Py modules or projects in root
-- One docs folder in repo
-- All markdown docs in docs folder,
-- docs has additionally
-  - json (folder for json data)
-  - task_db (folder for task_system api data storage)
-  - docs
+  - Py modules and projects
 
-index.md is updated by script:
+- Docs
 
-```sh
-python 
-```
+  - One docs folder in repo
+  - All markdown docs in docs folder,
+  - has additionally:
+    - data (folder for data)
+    - task_db (folder for task_system api data storage)
+    - other folders with categories of md docs
+
+  index.md is updated by script:
+
+  ```sh
+  python .\scripts\update_index_md.py
+  ```
