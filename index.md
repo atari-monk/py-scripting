@@ -1,12 +1,17 @@
-- Task system:
-  - [Idea](task_system/docs/session_001/doc_001.md)
-  - [Solution](task_system/docs/session_001/doc_002.md)
-  - [Implementation](task_system/docs/session_001/doc_003.md)
-  - [Implementation Structure](task_system/docs/session_001/doc_004.md)
-  - [Requirements](task_system/docs/session_001/doc_005.md)
-  - [Cli Wizard](task_system/docs/session_001/doc_006.md)
-  - [GET /tasks/ endpoint](task_system/docs/session_001/doc_007.md)
-  - [Pydantic V2 Migration](task_system/docs/session_001/doc_008.md)
-- [ToDo 2025](docs/todo_2025.md)
-- [Package](docs/package.md)
-- [Colorama Documentation (Basic Usage)](docs/colorama_cheatsheet.md)
+
+## Docs
+- [colorama cheatsheet](docs/colorama_cheatsheet.md)
+- [ls](docs/cli/ls.md)
+- [package](docs/package.md)
+- [scripts reflections](docs/scripts_reflections.md)
+- [todo 2025](docs/todo_2025.md)
+
+## Task System
+- [idea](task_system/docs/history/001_idea.md)
+- [solution](task_system/docs/history/002_solution.md)
+- [implementation](task_system/docs/history/003_implementation.md)
+- [implementation structure](task_system/docs/history/004_implementation_structure.md)
+- [requirements](task_system/docs/history/005_requirements.md)
+- [cli wizard](task_system/docs/history/006_cli_wizard.md)
+- [list tasks](task_system/docs/history/007_list_tasks.md)
+- [pydantic v2](task_system/docs/history/008_pydantic_v2.md)
