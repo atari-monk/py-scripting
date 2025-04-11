@@ -1,10 +1,7 @@
+import questionary
 from task_system.cli.InputHandler import InputHandler
 from task_system.cli.OperationStrategy import OperationStrategy
 from task_system.cli.ResponseHandler import ResponseHandler
-
-
-import questionary
-
 
 class CreateTaskOperation(OperationStrategy):
     def execute(self) -> None:
@@ -37,5 +34,18 @@ class CreateTaskOperation(OperationStrategy):
                 "examples": InputHandler.prompt_list("Output examples (one per line, empty to finish):")
             }
 
+        if questionary.confirm("Configure storage options?").ask():
+            storage_config = {
+                "md_folder": questionary.text(
+                    "Markdown folder path (leave empty for default):",
+                    default=""
+                ).ask() or None,
+                "md_filename": questionary.text(
+                    "Markdown filename:",
+                    default="task.md"
+                ).ask()
+            }
+            task_data["storage_config"] = storage_config
+            
         response = self.client.create_task(task_data)
         ResponseHandler.handle(response, "Task created successfully!")

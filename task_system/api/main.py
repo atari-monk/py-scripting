@@ -1,31 +1,29 @@
 from fastapi import FastAPI, HTTPException
-from datetime import datetime
 from task_system.api.models import CodingTask, TaskListResponse
+from task_system.api.storage import TaskStorage
 
 app = FastAPI()
-
-tasks_db = {}
+task_storage = TaskStorage()
 
 @app.post("/tasks/", response_model=CodingTask)
 async def create_task(task: CodingTask):
-    tasks_db[task.id] = task.model_dump()
-    return task
+    stored_task = task_storage.create(task)
+    return stored_task
 
 @app.get("/tasks/{task_id}", response_model=CodingTask)
 async def read_task(task_id: str):
-    if task_id not in tasks_db:
+    task = task_storage.read(task_id)
+    if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    return tasks_db[task_id]
+    return task
 
 @app.put("/tasks/{task_id}", response_model=CodingTask)
 async def update_task(task_id: str, task: CodingTask):
-    if task_id not in tasks_db:
+    updated_task = task_storage.update(task_id, task)
+    if not updated_task:
         raise HTTPException(status_code=404, detail="Task not found")
-    task.updated_at = datetime.utcnow()
-    tasks_db[task_id] = task.model_dump()
-    return task
+    return updated_task
 
 @app.get("/tasks/", response_model=TaskListResponse)
 async def list_tasks():
-    """List all tasks"""
-    return tasks_db
+    return task_storage.list_all()

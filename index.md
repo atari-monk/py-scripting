@@ -9,6 +9,12 @@
 
 ## Task System
 
+### Documentation
+
+- [CLI](task_system/docs/documentation/cli.md)
+
+### History
+
 - [idea](task_system/docs/history/001_idea.md)
 - [solution](task_system/docs/history/002_solution.md)
 - [implementation](task_system/docs/history/003_implementation.md)
