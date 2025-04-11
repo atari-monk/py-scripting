@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from task_system.api.models import CodingTask, TaskListResponse
-from task_system.api.storage import TaskStorage
+from task_system.api.TaskStorage import TaskStorage
 
 app = FastAPI()
 task_storage = TaskStorage()
