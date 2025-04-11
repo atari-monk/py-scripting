@@ -1,36 +1,24 @@
 import os
+import sys
 
-def get_base_folder():
-    base_folder = input("Enter the path to the base folder: ")
-    if not os.path.isdir(base_folder):
-        print("The provided path is not valid. Exiting.")
-        return None
-    return base_folder
+def get_files_file_extensions():
+    return ['.json', '.html', '.js', '.css', '.ts', '.py']
 
-def get_ignored_projects():
-    return {".git", "script", "node_modules", "dist", "build"}
-
-def get_ignored_files():
-    return {"package-lock.json"}
-
-def list_available_folders(base_folder, ignored_projects):
-    return [
-        f for f in os.listdir(base_folder)
-        if os.path.isdir(os.path.join(base_folder, f)) and f not in ignored_projects
+def get_ignored_items():
+    project_groups = [
+        [".git", "script", "node_modules", "dist", "build"],
+        ["__pycache__"],
     ]
 
-def choose_project_folder(subfolders):
-    if not subfolders:
-        print("No available project folders found.")
-        return None
-    for idx, folder in enumerate(subfolders, 1):
-        print(f"{idx}: {folder}")
-    choice = input("Enter the number corresponding to the project folder: ")
-    try:
-        return subfolders[int(choice) - 1]
-    except (IndexError, ValueError):
-        print("Invalid choice. Exiting.")
-        return None
+    file_groups = [
+        ["package-lock.json"],
+        ["__init__.py"],
+    ]
+    
+    return {
+        "projects": {item for group in project_groups for item in group},
+        "files": {item for group in file_groups for item in group}
+    }
 
 def get_files_to_merge(project_folder, file_extensions, ignored_projects, ignored_files):
     for root, dirs, files in os.walk(project_folder):
@@ -66,27 +54,37 @@ def write_txt_file(file_paths, project_folder, output_file):
             except Exception as e:
                 f.write(f"Could not read file content: {e}\n\n")
 
-def merge():
-    base_folder = get_base_folder()
-    if not base_folder:
+def merge(project_folder):
+    if not os.path.isdir(project_folder):
+        print("The provided path is not valid. Exiting.")
         return
-    ignored_projects = get_ignored_projects()
-    ignored_files = get_ignored_files()
-    subfolders = list_available_folders(base_folder, ignored_projects)
-    selected_folder = choose_project_folder(subfolders)
-    if not selected_folder:
-        return
-    project_folder = os.path.join(base_folder, selected_folder)
-    file_extensions = ['.json', '.html', '.js', '.css', '.ts']
-    file_paths = list(get_files_to_merge(project_folder, file_extensions, ignored_projects, ignored_files))
 
-    output_file_txt = os.path.join(project_folder, "merge.txt")
-    write_txt_file(file_paths, project_folder, output_file_txt)
-    print(f"Text file saved to: {output_file_txt}")
-
-    output_file_md = os.path.join(project_folder, "merge.md")
-    write_md_file(file_paths, project_folder, output_file_md)
-    print(f"Markdown file saved to: {output_file_md}")
+    ignored_items = get_ignored_items()
+    ignored_projects = ignored_items["projects"]
+    ignored_files = ignored_items["files"]
+    file_extensions = get_files_file_extensions()
     
+    try:
+        file_paths = list(get_files_to_merge(project_folder, file_extensions, ignored_projects, ignored_files))
+
+        output_file_txt = os.path.join(project_folder, "merge.txt")
+        write_txt_file(file_paths, project_folder, output_file_txt)
+        print(f"Text file saved to: {output_file_txt}")
+
+        output_file_md = os.path.join(project_folder, "merge.md")
+        write_md_file(file_paths, project_folder, output_file_md)
+        print(f"Markdown file saved to: {output_file_md}")
+    except KeyboardInterrupt:
+        print("\nOperation cancelled by user. Exiting gracefully.")
+        sys.exit(0)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        sys.exit(1)
+
 if __name__ == "__main__":
-    merge()
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <project_folder_path>")
+        sys.exit(1)
+    
+    project_folder = sys.argv[1]
+    merge(project_folder)
