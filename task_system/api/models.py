@@ -4,6 +4,19 @@ from datetime import datetime
 from typing import Dict
 import uuid
 
+def get_language_list():
+    return [
+        "python",
+        "javascript",
+        "java",
+        "csharp",
+        "typescript",
+        "c++",
+        "powershell",
+        "markdown",
+        "other"
+    ]
+
 class TaskInputOutput(BaseModel):
     description: str
     examples: Optional[List[str]] = Field(default_factory=list)
@@ -36,8 +49,9 @@ class CodingTask(BaseModel):
     @field_validator('language')
     @classmethod
     def validate_language(cls, v):
-        if v not in ['python', 'javascript', 'java', 'csharp', 'typescript', 'c++', 'powershell']:
-            raise ValueError("Language must be one of: python, javascript, java, csharp, typescript, c++, powershell")
+        languages = get_language_list()
+        if v not in languages:
+            raise ValueError("Language must be one of: " + ", ".join(languages))
         return v
 
 class TaskListResponse(RootModel):

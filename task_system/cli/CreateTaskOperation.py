@@ -1,4 +1,5 @@
 import questionary
+from task_system.api.models import get_language_list
 from task_system.cli.InputHandler import InputHandler
 from task_system.cli.OperationStrategy import OperationStrategy
 from task_system.cli.ResponseHandler import ResponseHandler
@@ -12,7 +13,7 @@ class CreateTaskOperation(OperationStrategy):
             "requirements": InputHandler.prompt_list("Requirements (one per line, empty to finish):"),
             "language": questionary.select(
                 "Language:",
-                choices=["python", "javascript", "java", "c++", "go", "rust", "other"]
+                choices=get_language_list()
             ).ask(),
             "difficulty": questionary.select(
                 "Difficulty:",

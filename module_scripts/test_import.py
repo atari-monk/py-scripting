@@ -1,7 +1,8 @@
 import sys
-print(sys.path)  # Should contain your project root
 from importlib.util import find_spec
-print(find_spec("py_scripting"))  # Should show location
+
+print(sys.path)
+print(find_spec("py_scripting"))
 
 try:
     from chatgpt_scripts.chatgpt_automation import initialize_chatgpt_session
