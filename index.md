@@ -24,3 +24,8 @@
 - [list tasks](task_system/docs/history/007_list_tasks.md)
 - [pydantic v2](task_system/docs/history/008_pydantic_v2.md)
 - [md_storage](task_system/docs/history/009_md_storage.md)
+
+## Blender
+- [cabin](blender_scripts/docs/cabin.md)
+- [story](blender_scripts/docs/story.md)
+- [utils](blender_scripts/docs/utils.md)

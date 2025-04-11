@@ -1,8 +1,6 @@
-# primitives.py
 import bpy
 
 def create_plane(name="Plane", size_x=2.0, size_y=2.0, location=(0, 0, 0)):
-    """Create a plane with given dimensions and location."""
     bpy.ops.mesh.primitive_plane_add(size=1.0)
     plane = bpy.context.active_object
     plane.name = name
@@ -11,7 +9,6 @@ def create_plane(name="Plane", size_x=2.0, size_y=2.0, location=(0, 0, 0)):
     return plane
 
 def create_cube(name="Cube", dimensions=(2.0, 2.0, 2.0), location=(0, 0, 0)):
-    """Create a cube with given dimensions and location."""
     bpy.ops.mesh.primitive_cube_add(size=1.0)
     cube = bpy.context.active_object
     cube.name = name
@@ -20,7 +17,6 @@ def create_cube(name="Cube", dimensions=(2.0, 2.0, 2.0), location=(0, 0, 0)):
     return cube
 
 def create_cylinder(name="Cylinder", radius=1.0, depth=2.0, location=(0, 0, 0), vertices=32):
-    """Create a cylinder with given radius, depth and location."""
     bpy.ops.mesh.primitive_cylinder_add(
         vertices=vertices,
         radius=radius,
