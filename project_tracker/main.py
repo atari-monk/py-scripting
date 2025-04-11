@@ -7,7 +7,7 @@ from project_tracker.stats import calculate_days_stats
 from shared_library.json.print import print_json
 
 config = {
-    'base_directory': r'C:\atari-monk\code\text-data\project-tracker',
+    'base_directory': r'C:\atari-monk\code\text-data\project_tracker',
     'filename': 'tasks.json',
     'filename_1': 'tasks.json',
     'filename_2': 'stats.json'
