@@ -25,18 +25,6 @@ Input and output clearly shows what comments can be cleared.
 There is many exeptions so i detect them and skip such cases.  
 If it is not simple it wont work.
 
-## Tests
-
-- want to setup unit tests in py
-- test_remove_comments.py
-- debuged with VSCODE launch.json
-
-to run tests:
-
-```sh
-python -m unittest .\tests\test_remove_comments.py
-```
-
 ## fs_tree.py
 
 - file system tree printout of folders and files in path

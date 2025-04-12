@@ -1,37 +1,51 @@
 # py-scripting
 
-Repo with python scripts.
+Repository containing Python scripts for automation and joy.
 
-## On Wrappers
+## Philosophy
 
-Note to self: Do not write scripts to run scripts.  
-Better write fine scripts.  
-I had this silly tendency to write menus or runners.  
-Pointless waste, there is cli console to run this.  
-There is packages to do instead.
+### On Wrappers
 
-## Repo structure Assumptions
+Avoid writing scripts to run other scripts. Instead:
 
-- Repo files in root
+- Write focused, well-designed scripts
+- Use the CLI directly to run scripts
+- Leverage existing packages rather than creating wrappers
 
-  - setup.py
-  - requirements.txt
-  - index.md (for github pages on root)
-  - \_\_init\_\_.py (repo is also py module)
-  - .gitignore
-  - .vscode
-  - docs
-  - py_scripting.egg-info (module data, not in source control)
-  - Py modules and projects
+I've learned from experience that creating menu systems or script runners is generally:
 
-- Docs
+- A maintenance burden
+- Unnecessary when CLI tools exist
+- Often better handled by proper packaging
 
-  - One docs folder in repo
-  - All markdown docs in docs folder,
-  - Docs must be strictly on topic of this repo content !
+## Repository Structure
 
-  index.md is updated by script:
+### Root Directory
 
+- `setup.py` (Python package configuration)
+- `requirements.txt` (dependencies)
+- `__init__.py` (enables repo as Python module)
+- `.gitignore`
+- `.vscode/` (editor configuration)
+- `docs/` (documentation for GitHub Pages)
+- `py_scripting.egg-info/` (generated package metadata, excluded from version control)
+- Python modules and project files
+
+### Documentation Standards
+
+- Single `docs/` directory containing all Markdown documentation
+- Documentation must be strictly relevant to the repository's content
+- Automatically update `index.md` using:
   ```sh
-  python .\scripts\update_index_md.py
+  python ./scripts/update_index_md.py
+  ```
+
+## Testing
+
+- Unit tests written in Python
+- Debugged using VS Code's `launch.json` configurations
+- Tests reside in `tests/` directory
+- To run tests:
+  ```sh
+  python -m unittest ./tests/test_remove_comments.py
   ```
