@@ -44,6 +44,8 @@ def add_counter(config):
         print(f"Initial value must be either 0 ({label_0}) or 1 ({label_1}).")
         return
     
+    active = input(f"Should '{name}' be active? (y/n): ").lower() == 'y'
+    
     config["counters"].append({
         "name": name,
         "start_date": start_date.strftime("%Y-%m-%d"),
@@ -52,13 +54,18 @@ def add_counter(config):
         "labels": {
             "1": label_1,
             "0": label_0
-        }
+        },
+        "active": active
     })
     save_config(config)
-    print(f"\nCounter '{name}' added successfully!")
+    status = "active" if active else "inactive"
+    print(f"\nCounter '{name}' added successfully ({status})!")
     print(f"Will start with {label_1 if initial_value == '1' else label_0} on {start_date}, alternating every {interval_days} days.")
 
 def calculate_counter_status(counter):
+    if not counter.get('active', True):
+        return "Off"
+    
     start_date = datetime.strptime(counter['start_date'], "%Y-%m-%d").date()
     interval_days = counter['interval_days']
     initial_value = counter['initial_value']
@@ -84,13 +91,16 @@ def show_all_counters(config):
         status = calculate_counter_status(counter)
         labels = counter.get("labels", {"1": "1", "0": "0"})
         
-        if status is None:
+        if status == "Off":
+            status_str = "Off"
+        elif status is None:
             initial_label = labels[str(counter['initial_value'])]
             status_str = f"PENDING (starts with {initial_label} on {counter['start_date']})"
         else:
             status_str = labels[str(status)]
         
-        print(f"{counter['name']}: {status_str}")
+        active_status = "Active" if counter.get('active', True) else "Inactive"
+        print(f"{counter['name']} ({active_status}): {status_str}")
         print(f"  Start: {counter['start_date']} (initial: {labels[str(counter['initial_value'])]})")
         print(f"  Interval: every {counter['interval_days']} days")
         print(f"  Labels: 1 = {labels['1']}, 0 = {labels['0']}")
@@ -103,7 +113,7 @@ def delete_counter(config):
     
     print("\nCurrent counters:")
     for i, counter in enumerate(config["counters"], 1):
-        print(f"{i}. {counter['name']}")
+        print(f"{i}. {counter['name']} ({'Active' if counter.get('active', True) else 'Inactive'})")
     
     try:
         choice = int(input("\nEnter number of counter to delete (0 to cancel): "))
@@ -118,13 +128,39 @@ def delete_counter(config):
     except ValueError:
         print("Please enter a valid number.")
 
+def toggle_counter(config):
+    if not config["counters"]:
+        print("\nNo counters to toggle.")
+        return
+    
+    print("\nCurrent counters:")
+    for i, counter in enumerate(config["counters"], 1):
+        print(f"{i}. {counter['name']} ({'Active' if counter.get('active', True) else 'Inactive'})")
+    
+    try:
+        choice = int(input("\nEnter number of counter to toggle (0 to cancel): "))
+        if choice == 0:
+            return
+        if 1 <= choice <= len(config["counters"]):
+            counter = config["counters"][choice - 1]
+            current_status = counter.get('active', True)
+            counter['active'] = not current_status
+            save_config(config)
+            new_status = "active" if counter['active'] else "inactive"
+            print(f"\nCounter '{counter['name']}' is now {new_status}!")
+        else:
+            print("Invalid selection.")
+    except ValueError:
+        print("Please enter a valid number.")
+
 def main_menu():
     print("\nMAIN MENU")
     print("1. Add new counter")
     print("2. View all counters")
     print("3. Delete a counter")
-    print("4. Exit")
-    return input("Choose an option (1-4): ")
+    print("4. Toggle counter active status")
+    print("5. Exit")
+    return input("Choose an option (1-5): ")
 
 def main():
     config = load_config()
@@ -139,6 +175,8 @@ def main():
         elif choice == '3':
             delete_counter(config)
         elif choice == '4':
+            toggle_counter(config)
+        elif choice == '5':
             print("\nGoodbye!")
             break
         else:
