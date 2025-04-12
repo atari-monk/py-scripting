@@ -36,20 +36,27 @@ def add_counter(config):
         print("Invalid interval. Please enter a positive integer.")
         return
     
-    initial_value = input(f"Should '{name}' start with 0 or 1 on {start_date}? (0/1): ")
+    label_1 = input("Enter label for '1' state (e.g., 'Water'): ").strip() or "1"
+    label_0 = input("Enter label for '0' state (e.g., 'Don't water'): ").strip() or "0"
+    
+    initial_value = input(f"Should '{name}' start with {label_1} (1) or {label_0} (0) on {start_date}? (1/0): ")
     if initial_value not in ('0', '1'):
-        print("Initial value must be either 0 or 1.")
+        print(f"Initial value must be either 0 ({label_0}) or 1 ({label_1}).")
         return
     
     config["counters"].append({
         "name": name,
         "start_date": start_date.strftime("%Y-%m-%d"),
         "interval_days": interval_days,
-        "initial_value": int(initial_value)
+        "initial_value": int(initial_value),
+        "labels": {
+            "1": label_1,
+            "0": label_0
+        }
     })
     save_config(config)
     print(f"\nCounter '{name}' added successfully!")
-    print(f"Will start with {initial_value} on {start_date}, alternating every {interval_days} days.")
+    print(f"Will start with {label_1 if initial_value == '1' else label_0} on {start_date}, alternating every {interval_days} days.")
 
 def calculate_counter_status(counter):
     start_date = datetime.strptime(counter['start_date'], "%Y-%m-%d").date()
@@ -72,18 +79,22 @@ def show_all_counters(config):
         return
     
     print("\nCurrent counter statuses:")
-    print("-" * 40)
+    print("-" * 60)
     for counter in config["counters"]:
         status = calculate_counter_status(counter)
+        labels = counter.get("labels", {"1": "1", "0": "0"})
+        
         if status is None:
-            status_str = f"PENDING (starts with {counter['initial_value']} on {counter['start_date']})"
+            initial_label = labels[str(counter['initial_value'])]
+            status_str = f"PENDING (starts with {initial_label} on {counter['start_date']})"
         else:
-            status_str = str(status)
+            status_str = labels[str(status)]
         
         print(f"{counter['name']}: {status_str}")
-        print(f"  Start: {counter['start_date']} (initial: {counter['initial_value']})")
+        print(f"  Start: {counter['start_date']} (initial: {labels[str(counter['initial_value'])]})")
         print(f"  Interval: every {counter['interval_days']} days")
-        print("-" * 40)
+        print(f"  Labels: 1 = {labels['1']}, 0 = {labels['0']}")
+        print("-" * 60)
 
 def delete_counter(config):
     if not config["counters"]:
