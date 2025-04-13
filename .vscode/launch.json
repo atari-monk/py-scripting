@@ -1,16 +1,52 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Debug task_add.py with Args",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/log_project/task_add.py",
+      "args": [
+        "1",
+        "Debug Task",
+        "--status",
+        "in progress",
+        "--priority",
+        "high",
+        "--description",
+        "Debugging session",
+        "--due-date",
+        "2025-12-15"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "Debug Current File with Args",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "args": ["1", "Sample Task", "--status", "pending"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    }
+  ]
 }

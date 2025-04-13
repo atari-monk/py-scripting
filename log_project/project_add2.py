@@ -1,6 +1,6 @@
 import logging
 import argparse
-from log_project.project_crud import ProjectCRUD2
+from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ def add_project():
     args = parser.parse_args()
     
     project_json_reposotory = ProjectCRUD2()
-    #project_jsonl_reposotory = ProjectCRUD3()
+    project_jsonl_reposotory = ProjectCRUD3()
 
     project_dict = {
         'id': 0,
@@ -30,7 +30,7 @@ def add_project():
 
     try:
         result = project_json_reposotory.add_item(project_dict)
-        result_jsonl = True #project_jsonl_reposotory.add_item(project_dict)
+        result_jsonl = project_jsonl_reposotory.add_item(project_dict)
         if result and result_jsonl:
             logger.info(f"Project '{result['name']}' created successfully with ID '{result['id']}' in both repositories (JSON and JSONL).")
         else:

@@ -1,53 +1,52 @@
 import logging
-import pdb
-from typing import List
-from base.base_command import BaseCommand
-from shared.input_validator import InputValidator
-from commands.log_project.lib.crud.project_crud import ProjectCRUD2, ProjectCRUD3
-from commands.log_project.lib.model.project2 import Project2
+import argparse
+from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
+from shared_library.input_validator import InputValidator
 
 logger = logging.getLogger(__name__)
 
-class ProjectEdit2Command(BaseCommand):
-    def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.project_json_reposotory = ProjectCRUD2()
-        #self.project_jsonl_reposotory = ProjectCRUD3()
+def edit_project_json(project_id: int, data: dict, repository: ProjectCRUD2) -> bool:
+    return repository.update_by_id(project_id, **data)
 
-    def execute(self, *args: List[str]) -> None:
-        #pdb.set_trace()
-        if len(args) < 2:
-            self.print_usage()
-            return
+def edit_project_jsonl(project_id: int, data: dict, repository: ProjectCRUD3) -> bool:
+    return repository.update_by_id(project_id, **data)
 
-        project_id = int(args[0])
-        field_value_pairs = args[1:]
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Edit an existing project. Specify the project ID and fields to update.")
+    parser.add_argument("project_id", type=int, help="ID of the project to edit")
+    parser.add_argument("field_value_pairs", nargs="+", help="Field-value pairs to update (format: field=value)")
+    return parser.parse_args()
 
-        project_existing = self.project_json_reposotory.get_by_id(project_id)
-        if not project_existing:
-            logger.error(f"Project with ID '{project_id}' not found.")
-            return
+def main():
+    args = parse_arguments()
+    project_id = args.project_id
+    field_value_pairs = args.field_value_pairs
 
-        data_input = InputValidator.validate_and_parse(field_value_pairs)
-        if not data_input: return
+    json_repository = ProjectCRUD2()
+    jsonl_repository = ProjectCRUD3()
 
-        try:
-            result = self.project_json_reposotory.update_by_id(project_id, **data_input)
-            result_jsonl = True #self.project_jsonl_reposotory.update_by_id(project_id, **data_input)
-            if result and result_jsonl:
-                logger.info(f"Project '{project_id}' updated successfully in both repositories (JSON and JSONL).")
-            else:
-                if not result:
-                    logger.warning(f"Failed to update project '{project_id}' in JSON repository.")
-                if not result_jsonl:
-                    logger.warning(f"Failed to update project '{project_id}' in JSONL repository.")
-        except Exception as e:
-            logger.error(f"Unexpected error during project update: {e}")
+    project_existing = json_repository.get_by_id(project_id)
+    if not project_existing:
+        logger.error(f"Project with ID '{project_id}' not found.")
+        return
 
-    def print_usage(self):
-        logger.info("Usage: command <project_id> <field=value> ...")
+    data_input = InputValidator.validate_and_parse(field_value_pairs)
+    if not data_input:
+        return
 
-    @property
-    def description(self):
-        return "Edit an existing project. Specify the project ID and fields to update."
+    try:
+        json_result = edit_project_json(project_id, data_input, json_repository)
+        jsonl_result = edit_project_jsonl(project_id, data_input, jsonl_repository)
+
+        if json_result and jsonl_result:
+            logger.info(f"Project '{project_id}' updated successfully in both repositories (JSON and JSONL).")
+        else:
+            if not json_result:
+                logger.warning(f"Failed to update project '{project_id}' in JSON repository.")
+            if not jsonl_result:
+                logger.warning(f"Failed to update project '{project_id}' in JSONL repository.")
+    except Exception as e:
+        logger.error(f"Unexpected error during project update: {e}")
+
+if __name__ == "__main__":
+    main()

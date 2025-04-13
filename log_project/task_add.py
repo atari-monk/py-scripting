@@ -1,68 +1,70 @@
-from base.base_command import BaseCommand
-from commands.log_project.lib.crud.task_crud import TaskCRUD
-from commands.log_project.lib.model.task import Task
+import argparse
 from datetime import datetime
+from typing import Optional
+from log_project.ProjectTask import ProjectTask
+from log_project.task_crud import TaskCRUD
 
-class TaskAddCommand(BaseCommand):
-    def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.task_crud = TaskCRUD()
-
-    def execute(self, *args):
-        if len(args) < 2:
-            self.print_usage()
-            return
-
-        project_id, title = args[0], args[1]
-
-        status = args[2] if len(args) > 2 else 'pending'
-        description = args[3] if len(args) > 3 else None
-        priority = args[4] if len(args) > 4 else 'medium'
-        due_date_str = args[5] if len(args) > 5 else None
-
-        due_date = None
-        if due_date_str:
-            try:
-                due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
-            except ValueError:
-                print("Error: Invalid date format. Use YYYY-MM-DD.")
-                return
-
+def add_task(
+    project_id: int,
+    title: str,
+    status: str = 'pending',
+    description: Optional[str] = None,
+    priority: str = 'medium',
+    due_date_str: Optional[str] = None
+) -> ProjectTask:
+    due_date = None
+    if due_date_str:
         try:
-            validated_task = Task(
-                project_id=int(project_id),
-                title=title,
-                status=status,
-                description=description,
-                priority=priority,
-                due_date=due_date,
-                created_at=datetime.now()
-            )
-        except ValueError as e:
-            print(f"Error: Invalid input data. {e}")
-            return
+            due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError("Invalid date format. Use YYYY-MM-DD.")
 
-        try:
-            result = self.task_crud.add_item(validated_task)
-            if result:
-                print(f"Task '{result['description']}' created successfully with ID '{result['id']}'.")
-            else:
-                print("Failed to create task.")
-        except Exception as e:
-            print(f"Unexpected error during task creation: {e}")
+    task = ProjectTask(
+        project_id=project_id,
+        title=title,
+        status=status,
+        description=description,
+        priority=priority,
+        due_date=due_date,
+        created_at=datetime.now()
+    )
 
-    def print_usage(self):
-        print("""
-Usage: command <project_id> <title> [optional: <status>] [optional: <description>] [optional: <priority>] [optional: <due_date>]
+    try:
+        created_task = TaskCRUD().add_item(task.to_dict())
+        if not created_task:
+            raise RuntimeError("Failed to create task.")
+        return task
+    except Exception as e:
+        raise RuntimeError(f"Unexpected error during task creation: {e}")
 
-Examples:
-- To add a new task:
-  command 123 "Task title" "Pending" "Task description" "High" "2024-12-31"
-- To add a new task with minimal fields:
-  command 123 "Task title" "In Progress"
-""")
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Add a new task.")
+    parser.add_argument('project_id', type=int, help='ID of the project')
+    parser.add_argument('title', type=str, help='Title of the task')
+    parser.add_argument('--status', type=str, default='pending',
+                      help='Status of the task (default: pending)')
+    parser.add_argument('--description', type=str, default=None,
+                      help='Description of the task')
+    parser.add_argument('--priority', type=str, default='medium',
+                      help='Priority of the task (default: medium)')
+    parser.add_argument('--due-date', dest='due_date', type=str, default=None,
+                      help='Due date of the task (format: YYYY-MM-DD)')
+    return parser.parse_args()
 
-    @property
-    def description(self):
-        return "Add a new task."
+def main():
+    args = parse_arguments()
+    try:
+        task = add_task(
+            project_id=args.project_id,
+            title=args.title,
+            status=args.status,
+            description=args.description,
+            priority=args.priority,
+            due_date_str=args.due_date
+        )
+        print(f"Task '{task.title}' created successfully with ID '{task.id}'.")
+    except Exception as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()

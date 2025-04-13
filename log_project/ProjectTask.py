@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-class Task:
+class ProjectTask:
     allowed_statuses = ['pending', 'in progress', 'completed']
     allowed_priorities = ['low', 'medium', 'high']
 
@@ -13,7 +13,8 @@ class Task:
         description: Optional[str] = None,
         priority: str = 'medium',
         due_date: Optional[datetime] = None,
-        created_at: datetime = None
+        created_at: datetime = None,
+        id: Optional[int] = None
     ):
         self.project_id = project_id
         self.title = self._validate_title(title)
@@ -22,6 +23,7 @@ class Task:
         self.priority = self._validate_priority(priority)
         self.due_date = self._validate_due_date(due_date)
         self.created_at = created_at or datetime.now()
+        self.id = id
 
     def _validate_title(self, title: str) -> str:
         if not (1 <= len(title) <= 100):
@@ -50,11 +52,11 @@ class Task:
 
     def __repr__(self):
         return (f"Task(project_id={self.project_id}, title={self.title}, status={self.status}, "
-                f"priority={self.priority}, due_date={self.due_date}, created_at={self.created_at})")
+                f"priority={self.priority}, due_date={self.due_date}, created_at={self.created_at}, id={self.id})")
 
     def to_dict(self) -> dict:
-        """Converts the Task object to a dictionary, with datetime objects converted to ISO format."""
         return {
+            'id': self.id,
             'project_id': self.project_id,
             'title': self.title,
             'status': self.status,
@@ -65,8 +67,7 @@ class Task:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Task':
-        """Creates a Task instance from a dictionary."""
+    def from_dict(cls, data: dict) -> 'ProjectTask':
         data['due_date'] = datetime.fromisoformat(data['due_date']) if data.get('due_date') else None
         data['created_at'] = datetime.fromisoformat(data['created_at']) if data.get('created_at') else datetime.now()
         return cls(**data)

@@ -22,7 +22,6 @@ def generate_prompt():
     code_context = read_code_files(file_paths)
     
     full_prompt = f"""
-    Refactor the following code based on this request:
     {user_prompt}
     
     {code_context}
