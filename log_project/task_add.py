@@ -13,17 +13,14 @@ class TaskAddCommand(BaseCommand):
         if len(args) < 2:
             self.print_usage()
             return
-        
-        # Required fields
+
         project_id, title = args[0], args[1]
-        
-        # Optional fields
+
         status = args[2] if len(args) > 2 else 'pending'
         description = args[3] if len(args) > 3 else None
         priority = args[4] if len(args) > 4 else 'medium'
         due_date_str = args[5] if len(args) > 5 else None
 
-        # Parse due date if provided
         due_date = None
         if due_date_str:
             try:
@@ -32,7 +29,6 @@ class TaskAddCommand(BaseCommand):
                 print("Error: Invalid date format. Use YYYY-MM-DD.")
                 return
 
-        # Create and validate task model using required fields and optional fields
         try:
             validated_task = Task(
                 project_id=int(project_id),
@@ -41,13 +37,12 @@ class TaskAddCommand(BaseCommand):
                 description=description,
                 priority=priority,
                 due_date=due_date,
-                created_at=datetime.now()  # Automatically set created_at
+                created_at=datetime.now()
             )
         except ValueError as e:
             print(f"Error: Invalid input data. {e}")
             return
 
-        # Attempt to save the task
         try:
             result = self.task_crud.add_item(validated_task)
             if result:

@@ -14,7 +14,6 @@ class ProjectAdd2Command(BaseCommand):
         #self.project_jsonl_reposotory = ProjectCRUD3()
 
     def execute(self, *args):
-        #pdb.set_trace()
         if len(args) < 2:
             self.print_usage()
             return
