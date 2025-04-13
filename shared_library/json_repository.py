@@ -13,7 +13,6 @@ class JSONRepository:
         if isinstance(self.storage, JSONLFileStorage):
             return self.jsonl_add_item(item_data)
 
-        # Default flow for other storage types (like JSONFileStorage)
         items = self.storage.load_all(self.model)
         item_data['id'] = self._get_new_id(items)
         items.append(self.model.from_dict(item_data))
@@ -22,20 +21,17 @@ class JSONRepository:
         return item_data
 
     def jsonl_add_item(self, item_data: dict) -> dict:
-        """Handles adding an item to JSONL storage."""
         item_data['id'] = self._get_new_id()
-        self.storage.append(self.model.from_dict(item_data))  # Appending to JSONL storage
+        self.storage.append(self.model.from_dict(item_data))
         logger.info(f"Item with ID {item_data['id']} appended successfully.")
         return item_data
 
     def _get_new_id(self, existing_items=None) -> int:
-        """Helper method to get the next ID for a new item."""
         if existing_items is None:
             existing_items = self.storage.load_all(self.model)
         return max((item.id for item in existing_items), default=0) + 1
 
     def get_by_id(self, item_id: int) -> dict:
-        """Reads a single item by its ID."""
         items = self.storage.load_all (self.model)
         item = next((item for item in items if item.id == item_id), None)
         
@@ -48,9 +44,8 @@ class JSONRepository:
         items = self.storage.load_all(self.model)
         for index, item in enumerate(items):
             if item.id == item_id:
-                updated_data = {**item.to_dict(), **data}  # Merge current and new data
+                updated_data = {**item.to_dict(), **data}
                 try:
-                    # Reinitialize item with validated data
                     items[index] = self.model.from_dict(updated_data)
                     self.storage.save_all(items)
                     logger.info(f"Item {item_id} updated successfully.")
@@ -62,7 +57,6 @@ class JSONRepository:
         return False
 
     def delete_by_id(self, item_id: int) -> bool:
-        """Deletes an item by its ID."""
         items = self.storage.load_all (self.model)
         updated_items = [item for item in items if item.id != item_id]
         
@@ -74,6 +68,5 @@ class JSONRepository:
         return False
 
     def fetch_all(self) -> list:
-        """Lists all items."""
         items = self.storage.load_all (self.model)
         return [item.to_dict() for item in items]
