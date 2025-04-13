@@ -8,15 +8,17 @@ def clean_name(name):
 def generate_docs_index(repo_path):
     repo_path = Path(repo_path).resolve()
     docs_path = repo_path / 'docs'
-    index_file = repo_path / 'docs/index.md'
     
-    if not docs_path.exists():
-        print(f"Error: 'docs' folder not found in {repo_path}")
-        return
+    if docs_path.exists():
+        index_file = docs_path / 'index.md'
+        base_path = docs_path
+    else:
+        index_file = repo_path / 'index.md'
+        base_path = repo_path
     
     index_content = ["# Documentation Index\n"]
     
-    entries = list(os.scandir(docs_path))
+    entries = list(os.scandir(base_path))
     has_subdirs = any(entry.is_dir() for entry in entries)
     has_files = any(entry.is_file() and entry.name.lower().endswith('.md') and entry.name.lower() != 'index.md' for entry in entries)
     
@@ -28,22 +30,22 @@ def generate_docs_index(repo_path):
             name = clean_name(file_path.stem)
             index_content.append(f"- [{name}]({file_path.name})")
     else:
-        for root, _, files in os.walk(docs_path):
-            if Path(root) == docs_path:
+        for root, _, files in os.walk(base_path):
+            if Path(root) == base_path:
                 continue
                 
             md_files = [f for f in files if f.lower().endswith('.md') and f.lower() != 'index.md']
             if not md_files:
                 continue
                 
-            rel_path = Path(root).relative_to(docs_path)
+            rel_path = Path(root).relative_to(base_path)
             section_name = clean_name(rel_path.name)
             index_content.append(f"\n## {section_name}")
             
             for file in md_files:
                 file_path = Path(root) / file
                 name = clean_name(file_path.stem)
-                rel_file_path = file_path.relative_to(docs_path)
+                rel_file_path = file_path.relative_to(base_path)
                 index_content.append(f"- [{name}]({str(rel_file_path).replace('\\', '/')})")
     
     with open(index_file, 'w', encoding='utf-8') as f:
@@ -52,7 +54,7 @@ def generate_docs_index(repo_path):
     print(f"Generated index with {len(index_content) - 1} sections in {index_file}")
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate documentation index from docs folder')
+    parser = argparse.ArgumentParser(description='Generate documentation index from docs folder or repo root')
     parser.add_argument('path', nargs='?', help='Path to repository root directory')
     args = parser.parse_args()
     
