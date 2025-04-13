@@ -1,56 +1,67 @@
+import argparse
 import logging
-from typing import List
-from base.base_command import BaseCommand
-from commands.log_project.lib.crud.project_crud import ProjectCRUD2, ProjectCRUD3
+from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
 
 logger = logging.getLogger(__name__)
 
-class ProjectDelete2Command(BaseCommand):
-    def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.project_json_reposotory = ProjectCRUD2()
-        self.project_jsonl_reposotory = ProjectCRUD3()
+def delete_project_json(project_id: int) -> bool:
+    json_repo = ProjectCRUD2()
+    
+    try:
+        if not json_repo.get_by_id(project_id):
+            logger.error(f"Project {project_id} not found in JSON repository")
+            return False
+            
+        json_success = json_repo.delete_by_id(project_id)
+        
+        if json_success:
+            logger.info(f"Deleted project {project_id} from JSON repository")
+            return True
+        else:
+            logger.error(f"Failed to delete project {project_id} from JSON repository")
+            return False
+    except Exception as e:
+        logger.error(f"Error deleting project from JSON repository: {e}")
+        return False
 
-    def execute(self, *args: List[str]) -> None:
-        if len(args) < 1:
-            self.print_usage()
-            return
+def delete_project_jsonl(project_id: int) -> bool:
+    jsonl_repo = ProjectCRUD3()
+    
+    try:
+        if not jsonl_repo.get_by_id(project_id):
+            logger.error(f"Project {project_id} not found in JSONL repository")
+            return False
+            
+        jsonl_success = jsonl_repo.delete_by_id(project_id)
+        
+        if jsonl_success:
+            logger.info(f"Deleted project {project_id} from JSONL repository")
+            return True
+        else:
+            logger.error(f"Failed to delete project {project_id} from JSONL repository")
+            return False
+    except Exception as e:
+        logger.error(f"Error deleting project from JSONL repository: {e}")
+        return False
 
-        project_id = int(args[0])
+def main():
+    parser = argparse.ArgumentParser(description="Delete a project by ID")
+    parser.add_argument("project_id", type=int, help="Numeric project ID to delete")
+    parser.add_argument("--json", action="store_true", help="Delete from JSON repository only")
+    parser.add_argument("--jsonl", action="store_true", help="Delete from JSONL repository only")
+    args = parser.parse_args()
+    
+    if args.json:
+        success = delete_project_json(args.project_id)
+    elif args.jsonl:
+        success = delete_project_jsonl(args.project_id)
+    else:
+        json_success = delete_project_json(args.project_id)
+        jsonl_success = delete_project_jsonl(args.project_id)
+        success = json_success and jsonl_success
+    
+    if not success:
+        exit(1)
 
-        logger.debug(f"Attempting to delete project with ID: {project_id}")
-
-        try:
-            existing_project = self.project_json_reposotory.get_by_id(project_id)
-            if not existing_project:
-                logger.error(f"Project with ID '{project_id}' not found.")
-                return
-
-            result = self.project_json_reposotory.delete_by_id(project_id)
-            result_jsonl = self.project_jsonl_reposotory.delete_by_id(project_id)
-            if result and result_jsonl:
-                logger.info(f"Project '{project_id}' deleted successfully in both repositories (JSON and JSONL).")
-            else:
-                if not result:
-                    logger.warning(f"Failed to delete project '{project_id}' in JSON repository.")
-                if not result_jsonl:
-                    logger.warning(f"Failed to delete project '{project_id}' in JSONL repository.")
-        except ValueError:
-            logger.error("Invalid project ID. Please provide a numeric ID.")
-        except Exception as e:
-            logger.error(f"Unexpected error during project deletion: {e}")
-
-    def print_usage(self):
-        usage_message = """
-Usage: command <project_id>
-
-Example:
-- To delete a project:
-  command 123
-"""
-        logger.info(usage_message)
-
-    @property
-    def description(self):
-        return "Delete a project by its ID."
+if __name__ == "__main__":
+    main()
