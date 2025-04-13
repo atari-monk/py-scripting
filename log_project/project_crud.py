@@ -1,10 +1,10 @@
 import os
-from commands.log_project.lib.config import DB
-from commands.log_project.lib.model.project import Project
-from commands.log_project.lib.model.project2 import Project2
-from shared.json_file_storage import JSONFileStorage
-from shared.jsonl_file_storage import JSONLFileStorage
-from shared.json_repository import JSONRepository
+from log_project.config import DB
+from log_project.project import Project
+from log_project.project2 import Project2
+from shared_library.json_file_storage import JSONFileStorage
+from shared_library.json_repository import JSONRepository
+from shared_library.jsonl_file_storage import JSONLFileStorage
 
 class ProjectCRUD(JSONRepository):
     def __init__(self):

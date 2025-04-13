@@ -101,9 +101,6 @@ class Project:
             f"current_tasks={self.current_tasks}, last_updated={self.last_updated}, id={self.id})")
 
     def to_dict(self) -> dict:
-        """
-        Converts the Project object to a dictionary, with dates formatted in ISO format.
-        """
         return {
             'id': self.id,
             'name': self.name,
