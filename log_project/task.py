@@ -70,4 +70,3 @@ class Task:
         data['due_date'] = datetime.fromisoformat(data['due_date']) if data.get('due_date') else None
         data['created_at'] = datetime.fromisoformat(data['created_at']) if data.get('created_at') else datetime.now()
         return cls(**data)
-    

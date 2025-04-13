@@ -1,8 +1,8 @@
 import os
-from shared.json_repository import JSONRepository
-from shared.json_file_storage import JSONFileStorage
-from commands.log_project.lib.config import DB
-from commands.log_project.lib.model.task import Task
+from asyncio import Task
+from log_project.config import DB
+from shared_library.json_file_storage import JSONFileStorage
+from shared_library.json_repository import JSONRepository
 
 class TaskCRUD(JSONRepository):
     def __init__(self):

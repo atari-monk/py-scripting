@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from task import Task
 
 def test_task_initialization():
-    """Test successful initialization with all fields."""
     task = Task(
         project_id=1,
         title="Test Task",
@@ -21,7 +20,6 @@ def test_task_initialization():
     assert isinstance(task.created_at, datetime)
 
 def test_default_values():
-    """Test default values for status, priority, and created_at."""
     task = Task(
         project_id=2,
         title="Default Values Task",
@@ -31,7 +29,6 @@ def test_default_values():
     assert isinstance(task.created_at, datetime)
 
 def test_title_length_validation():
-    """Test title length validation."""
     with pytest.raises(ValueError, match="Title must be between 1 and 100 characters."):
         Task(project_id=3, title="")
 
@@ -39,7 +36,6 @@ def test_title_length_validation():
         Task(project_id=3, title="T" * 101)
 
 def test_status_validation():
-    """Test valid and invalid statuses."""
     task = Task(project_id=4, title="Status Test", status="completed")
     assert task.status == "completed"
 
@@ -47,7 +43,6 @@ def test_status_validation():
         Task(project_id=4, title="Invalid Status Test", status="unknown")
 
 def test_priority_validation():
-    """Test valid and invalid priorities."""
     task = Task(project_id=5, title="Priority Test", priority="high")
     assert task.priority == "high"
 
@@ -55,7 +50,6 @@ def test_priority_validation():
         Task(project_id=5, title="Invalid Priority Test", priority="urgent")
 
 def test_due_date_validation():
-    """Test due date validation to ensure it's in the future."""
     task = Task(project_id=6, title="Due Date Test", due_date=datetime.now() + timedelta(days=1))
     assert task.due_date is not None
 
@@ -63,7 +57,6 @@ def test_due_date_validation():
         Task(project_id=6, title="Past Due Date Test", due_date=datetime.now() - timedelta(days=1))
 
 def test_description_length_validation():
-    """Test description length validation."""
     task = Task(
         project_id=7,
         title="Description Test",
