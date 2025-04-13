@@ -101,19 +101,26 @@ class Project:
             f"current_tasks={self.current_tasks}, last_updated={self.last_updated}, id={self.id})")
 
     def to_dict(self) -> dict:
+        def format_date(d):
+            if d is None:
+                return None
+            if isinstance(d, str):
+                return d
+            return d.isoformat() if hasattr(d, 'isoformat') else str(d)
+
         return {
             'id': self.id,
             'name': self.name,
             'description': self.description,
             'repo_link': self.repo_link,
             'status': self.status,
-            'start_date': self.start_date.isoformat() if self.start_date else None,
-            'end_date': self.end_date.isoformat() if self.end_date else None,
+            'start_date': format_date(self.start_date),
+            'end_date': format_date(self.end_date),
             'priority': self.priority,
             'technologies': self.technologies,
             'milestones': self.milestones,
             'current_tasks': self.current_tasks,
-            'last_updated': self.last_updated.isoformat() if self.last_updated else None
+            'last_updated': format_date(self.last_updated)
         }
 
     @classmethod
