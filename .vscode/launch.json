@@ -37,6 +37,19 @@
       "justMyCode": true
     },
     {
+      "name": "Debug add_conversation with Args",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/log_ai/add_conversation.py",
+      "args": ["add", "test", "test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "justMyCode": true
+    },
+    {
       "name": "Debug Current File with Args",
       "type": "debugpy",
       "request": "launch",
