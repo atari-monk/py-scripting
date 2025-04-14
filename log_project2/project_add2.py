@@ -1,6 +1,7 @@
 import logging
 import argparse
-from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
+from log_project2.crud.ProjectCRUD import ProjectCRUD
+from log_project2.crud.ProjectCRUDJsonl import ProjectCRUDJsonl
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +16,8 @@ def add_project():
     
     args = parser.parse_args()
     
-    project_json_reposotory = ProjectCRUD2()
-    project_jsonl_reposotory = ProjectCRUD3()
+    project_json_reposotory = ProjectCRUD()
+    project_jsonl_reposotory = ProjectCRUDJsonl()
 
     project_dict = {
         'id': 0,

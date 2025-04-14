@@ -1,7 +1,7 @@
 import logging
 import argparse
-from log_project.project import Project
-from log_project.project_crud import ProjectCRUD
+from log_project.model.Project import Project
+from log_project.crud.ProjectCRUD import ProjectCRUD
 
 logger = logging.getLogger(__name__)
 

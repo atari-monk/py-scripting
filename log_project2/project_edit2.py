@@ -1,14 +1,15 @@
 import logging
 import argparse
-from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
 from shared_library.input_validator import InputValidator
+from log_project2.crud.ProjectCRUD import ProjectCRUD
+from log_project2.crud.ProjectCRUDJsonl import ProjectCRUDJsonl
 
 logger = logging.getLogger(__name__)
 
-def edit_project_json(project_id: int, data: dict, repository: ProjectCRUD2) -> bool:
+def edit_project_json(project_id: int, data: dict, repository: ProjectCRUD) -> bool:
     return repository.update_by_id(project_id, **data)
 
-def edit_project_jsonl(project_id: int, data: dict, repository: ProjectCRUD3) -> bool:
+def edit_project_jsonl(project_id: int, data: dict, repository: ProjectCRUDJsonl) -> bool:
     return repository.update_by_id(project_id, **data)
 
 def parse_arguments():
@@ -22,8 +23,8 @@ def main():
     project_id = args.project_id
     field_value_pairs = args.field_value_pairs
 
-    json_repository = ProjectCRUD2()
-    jsonl_repository = ProjectCRUD3()
+    json_repository = ProjectCRUD()
+    jsonl_repository = ProjectCRUDJsonl()
 
     project_existing = json_repository.get_by_id(project_id)
     if not project_existing:

@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-from project import Project
+from log_project.model.Project import Project
 
 def test_valid_project():
     project = Project(

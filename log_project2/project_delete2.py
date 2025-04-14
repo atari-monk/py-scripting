@@ -1,11 +1,12 @@
 import argparse
 import logging
-from log_project.project_crud import ProjectCRUD2, ProjectCRUD3
+from log_project2.crud.ProjectCRUD import ProjectCRUD
+from log_project2.crud.ProjectCRUDJsonl import ProjectCRUDJsonl
 
 logger = logging.getLogger(__name__)
 
 def delete_project_json(project_id: int) -> bool:
-    json_repo = ProjectCRUD2()
+    json_repo = ProjectCRUD()
     
     try:
         if not json_repo.get_by_id(project_id):
@@ -25,7 +26,7 @@ def delete_project_json(project_id: int) -> bool:
         return False
 
 def delete_project_jsonl(project_id: int) -> bool:
-    jsonl_repo = ProjectCRUD3()
+    jsonl_repo = ProjectCRUDJsonl()
     
     try:
         if not jsonl_repo.get_by_id(project_id):

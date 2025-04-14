@@ -1,6 +1,6 @@
 import os
-from log_project.ProjectTask import ProjectTask
-from log_project.config import DB
+from log_project.model.ProjectTask import ProjectTask
+from log_project.model.config import DB
 from shared_library.json_file_storage import JSONFileStorage
 from shared_library.json_repository import JSONRepository
 

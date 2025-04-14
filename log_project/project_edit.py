@@ -1,8 +1,8 @@
 import logging
 import argparse
 from typing import Dict, Any, List
-from log_project.project import Project
-from log_project.project_crud import ProjectCRUD, ProjectCRUD3
+from log_project.model.Project import Project
+from log_project.crud.ProjectCRUD import ProjectCRUD, ProjectCRUD3
 
 logger = logging.getLogger(__name__)
 

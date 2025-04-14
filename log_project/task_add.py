@@ -1,8 +1,8 @@
 import argparse
 from datetime import datetime
 from typing import Optional
-from log_project.ProjectTask import ProjectTask
-from log_project.task_crud import TaskCRUD
+from log_project.model.ProjectTask import ProjectTask
+from log_project.crud.TaskCRUD import TaskCRUD
 
 def add_task(
     project_id: int,

@@ -2,14 +2,14 @@ from datetime import date
 import logging
 from typing import Optional
 from urllib.parse import urlparse, ParseResult
-from log_project.status import Status
+from log_project.model.Status import Status
 from shared_library.validator import Validator
 from shared_library.validator_date import ValidatorDate
 from shared_library.validator_enum import ValidatorEnum
 
 logger = logging.getLogger(__name__)
 
-class Project2:
+class Project:
     def __init__(
         self, id: int, name: str, description: str, repo_link: Optional[ParseResult] = None,
         status: Optional[Status] = None,
@@ -66,7 +66,7 @@ class Project2:
         return data
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Project2':
+    def from_dict(cls, data: dict) -> 'Project':
         parsed_data = cls._parse_and_validate_data(
             id=data['id'],
             name=data.get('name', None),
