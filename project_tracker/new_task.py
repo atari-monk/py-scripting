@@ -21,8 +21,7 @@ def add_new_task(file_path):
         "estimate_minutes": estimate_minutes,
         "start_time": current_time,
         "end_time": "",
-        "actual_minutes": 0,
-        "notes": []
+        "actual_minutes": 0
     }
     
     data.append(new_task)

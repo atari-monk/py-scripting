@@ -16,5 +16,11 @@ def update_end_time_for_active_tasks(file_path):
         record["end_time"] = current_time
         record["actual_minutes"] = calculate_minutes(record["start_time"], record["end_time"])
 
+        note = input("Would you like to add a note? (Press Enter to skip): ").strip()
+        if note:
+            record["note"] = note
+        else:
+            record["note"] = ""
+
     json_string = format_json(data)
     save_json(file_path, json_string)
