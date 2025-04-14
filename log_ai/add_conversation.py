@@ -1,136 +1,121 @@
+import argparse
 from pydantic import ValidationError
-from base.base_command import BaseCommand
-from commands.log_ai.lib.crud.dialogue_crud import DialogueCRUD
-from commands.log_ai.lib.crud.conversation_crud import ConversationCRUD
-from commands.log_ai.lib.model.conversation import Conversation
+from log_ai.crud.conversation_crud import ConversationCRUD
+from log_ai.crud.dialogue_crud import DialogueCRUD
+from log_ai.model.conversation import Conversation
 
-class AddConversationCommand(BaseCommand):
-    def __init__(self, app):
-        super().__init__()
-        self.app = app
-        self.conversation_crud = ConversationCRUD()
-        self.dialogue_crud = DialogueCRUD()
+def add_conversation(name, description):
+    try:
+        validated_conversation = Conversation(
+            name=name,
+            description=description
+        )
+    except ValidationError as e:
+        print("Error: Invalid input data.")
+        print(e.json())
+        return
 
-    def execute(self, *args):
-        if len(args) < 2:
-            print("Usage: add_conversation <action> <conversation_id (optional)> <name> <description>")
-            return
-
-        action = args[0].lower()
-
-        if action == "add":
-            self.add_conversation(args[1:])
-        elif action == "edit":
-            self.edit_conversation(args[1:])
-        elif action == "delete":
-            self.delete_conversation(args[1:])
+    conversation_crud = ConversationCRUD()
+    try:
+        result = conversation_crud.create(
+            name=validated_conversation.name,
+            description=validated_conversation.description,
+            start_timestamp=validated_conversation.start_timestamp,
+            last_mod_timestamp=validated_conversation.last_mod_timestamp
+        )
+        if result:
+            print(f"Conversation '{result['name']}' created successfully with id '{result['id']}'.")
         else:
-            print("Error: Invalid action. Use 'add' to create, 'edit' to update, or 'delete' to remove a conversation.")
+            print("Failed to create conversation.")
+    except Exception as e:
+        print(f"Unexpected error during conversation creation: {e}")
 
-    def add_conversation(self, args):
-        if len(args) < 2:
-            print("Usage: add_conversation add <name> <description>")
-            return
+def edit_conversation(conversation_id, name, description):
+    conversation_crud = ConversationCRUD()
+    existing_conversation = conversation_crud.read(conversation_id)
+    if not existing_conversation:
+        print(f"Error: Conversation with ID '{conversation_id}' not found.")
+        return
 
-        name, description = args[0], args[1]
+    if name != "none":
+        existing_conversation['name'] = name
+    if description != "none":
+        existing_conversation['description'] = description
 
-        try:
-            validated_conversation = Conversation(
-                name=name,
-                description=description
-            )
-        except ValidationError as e:
-            print("Error: Invalid input data.")
-            print(e.json())
-            return
+    try:
+        validated_conversation = Conversation(
+            name=existing_conversation['name'],
+            description=existing_conversation['description'],
+            start_timestamp=existing_conversation['start_timestamp'],
+            last_mod_timestamp=existing_conversation['last_mod_timestamp']
+        )
+    except ValidationError as e:
+        print("Error: Invalid input data.")
+        print(e.json())
+        return
 
-        try:
-            result = self.conversation_crud.create(
-                name=validated_conversation.name,
-                description=validated_conversation.description,
-                start_timestamp=validated_conversation.start_timestamp,
-                last_mod_timestamp=validated_conversation.last_mod_timestamp
-            )
-            if result:
-                print(f"Conversation '{result['name']}' created successfully with id '{result['id']}'.")
-            else:
-                print("Failed to create conversation.")
-        except Exception as e:
-            print(f"Unexpected error during conversation creation: {e}")
+    try:
+        result = conversation_crud.update(
+            conversation_id,
+            **validated_conversation.model_dump()
+        )
+        if result:
+            print(f"Conversation '{conversation_id}' updated successfully.")
+        else:
+            print("Failed to update conversation.")
+    except Exception as e:
+        print(f"Unexpected error during conversation update: {e}")
 
-    def edit_conversation(self, args):
-        if len(args) < 3:
-            print("Usage: add_conversation edit <conversation_id> <name or 'none'> <description or 'none'>")
-            return
+def delete_conversation(conversation_id):
+    conversation_crud = ConversationCRUD()
+    dialogue_crud = DialogueCRUD()
+    
+    existing_conversation = conversation_crud.read(conversation_id)
+    if not existing_conversation:
+        print(f"Error: Conversation with ID '{conversation_id}' not found.")
+        return
 
-        conversation_id, name, description = args[0], args[1], args[2]
+    dialogs = dialogue_crud.get_dialogs_by_conversation_id(conversation_id)
+    if dialogs:
+        print(f"Error: Conversation with ID '{conversation_id}' has associated dialogs and cannot be deleted.")
+        return
 
-        # Fetch the current conversation to validate the ID and make sure it exists
-        existing_conversation = self.conversation_crud.read(conversation_id)
-        if not existing_conversation:
-            print(f"Error: Conversation with ID '{conversation_id}' not found.")
-            return
+    try:
+        result = conversation_crud.delete(conversation_id)
+        if result:
+            print(f"Conversation '{conversation_id}' deleted successfully.")
+        else:
+            print(f"Failed to delete conversation '{conversation_id}'.")
+    except Exception as e:
+        print(f"Unexpected error during conversation deletion: {e}")
 
-        # Update only the fields that are provided (not 'none')
-        if name != "none":
-            existing_conversation['name'] = name
-        if description != "none":
-            existing_conversation['description'] = description
+def main():
+    parser = argparse.ArgumentParser(description="Add, edit, or delete a conversation.")
+    subparsers = parser.add_subparsers(dest='action', required=True)
 
-        try:
-            validated_conversation = Conversation(
-                name=existing_conversation['name'],
-                description=existing_conversation['description'],
-                start_timestamp=existing_conversation['start_timestamp'],
-                last_mod_timestamp=existing_conversation['last_mod_timestamp']
-            )
-        except ValidationError as e:
-            print("Error: Invalid input data.")
-            print(e.json())
-            return
+    # Add command
+    add_parser = subparsers.add_parser('add', help='Create a new conversation')
+    add_parser.add_argument('name', help='Name of the conversation')
+    add_parser.add_argument('description', help='Description of the conversation')
 
-        # Update the conversation in the database
-        try:
-            result = self.conversation_crud.update(
-                conversation_id,
-                **validated_conversation.model_dump()
-            )
-            if result:
-                print(f"Conversation '{conversation_id}' updated successfully.")
-            else:
-                print("Failed to update conversation.")
-        except Exception as e:
-            print(f"Unexpected error during conversation update: {e}")
+    # Edit command
+    edit_parser = subparsers.add_parser('edit', help='Edit an existing conversation')
+    edit_parser.add_argument('conversation_id', help='ID of the conversation to edit')
+    edit_parser.add_argument('name', help='New name or "none" to keep current')
+    edit_parser.add_argument('description', help='New description or "none" to keep current')
 
-    def delete_conversation(self, args):
-        if len(args) < 1:
-            print("Usage: add_conversation delete <conversation_id>")
-            return
+    # Delete command
+    delete_parser = subparsers.add_parser('delete', help='Delete a conversation')
+    delete_parser.add_argument('conversation_id', help='ID of the conversation to delete')
 
-        conversation_id = args[0]
+    args = parser.parse_args()
 
-        # Fetch the conversation to ensure it exists
-        existing_conversation = self.conversation_crud.read(conversation_id)
-        if not existing_conversation:
-            print(f"Error: Conversation with ID '{conversation_id}' not found.")
-            return
+    if args.action == 'add':
+        add_conversation(args.name, args.description)
+    elif args.action == 'edit':
+        edit_conversation(args.conversation_id, args.name, args.description)
+    elif args.action == 'delete':
+        delete_conversation(args.conversation_id)
 
-        # Check if there are any dialogs associated with the conversation
-        dialogs = self.dialogue_crud.get_dialogs_by_conversation_id(conversation_id)
-        if dialogs:
-            print(f"Error: Conversation with ID '{conversation_id}' has associated dialogs and cannot be deleted.")
-            return
-
-        try:
-            # Perform the deletion
-            result = self.conversation_crud.delete(conversation_id)
-            if result:
-                print(f"Conversation '{conversation_id}' deleted successfully.")
-            else:
-                print(f"Failed to delete conversation '{conversation_id}'.")
-        except Exception as e:
-            print(f"Unexpected error during conversation deletion: {e}")
-
-    @property
-    def description(self):
-        return "Add, edit, or delete a conversation. Use 'add' to create, 'edit' to update, or 'delete' to remove a conversation."
+if __name__ == '__main__':
+    main()

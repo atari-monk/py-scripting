@@ -1,8 +1,8 @@
 import os
-from shared.crud.crud import CRUD
-from cli_app.shared.json_file_storage import JSONFileStorage
-from commands.log_ai.lib.config import DB
-from commands.log_ai.lib.model.conversation import Conversation
+from log_ai.model.config import DB
+from log_ai.model.conversation import Conversation
+from log_ai.crud.crud import CRUD
+from shared_library.json_file_storage import JSONFileStorage
 
 class ConversationCRUD(CRUD):
     def __init__(self):

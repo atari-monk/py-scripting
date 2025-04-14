@@ -1,8 +1,8 @@
 import os
-from shared.crud.crud import CRUD
-from cli_app.shared.json_file_storage import JSONFileStorage
-from commands.log_ai.lib.config import DB
-from commands.log_ai.lib.model.dialogue import Dialogue
+from log_ai.crud.crud import CRUD
+from log_ai.model.config import DB
+from log_ai.model.dialogue import Dialogue
+from shared_library.json_file_storage import JSONFileStorage
 
 class DialogueCRUD(CRUD):
     def __init__(self):
@@ -14,4 +14,3 @@ class DialogueCRUD(CRUD):
         # This could query a dialogs database or list where dialogs are stored
         dialogs = self.list_all()
         return [dialog for dialog in dialogs if dialog['conversation_id'] == conversation_id]
-    
